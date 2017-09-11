@@ -10,12 +10,13 @@ function _init()
          ts={{0,3,6},
              {1,2,3},
              {4,5,6}},
-         frate=2,
-         flash={},
          dshrdy={},
-         acc=.7,
+         acc=.8,
          lastd=0,dashcd=.8,
-         bspd=-7}
+         bspd=-7, 
+         gun=1,guns={1,3},
+         frate=.4,bcd=0,
+         flash={}}
  t = 0
  bullets = {}
  particles = {}
@@ -98,27 +99,31 @@ function _update()
  ship.x += ship.dx
  ship.y += ship.dy
  
- if btn(4) and (t%ship.frate==0) then
-  f = ship.frate
-  lr = ((t/2)%f)/f*4+1
-  if ship.fp then
-   gx = ship.ts[3][lr]
-  elseif ship.sp > 4 then
-   gx = ship.ts[2][lr]
-  else
-   gx = ship.ts[1][lr]
+ if btn(4) then
+  ship.bcd -= 1
+  while ship.bcd <= 0 do
+   ship.bcd += ship.frate
+   ship.gun = (ship.gun%#ship.guns) + 1
+   lr = ship.guns[ship.gun]
+   if ship.fp then
+    gx = ship.ts[3][lr]
+   elseif ship.sp > 4 then
+    gx = ship.ts[2][lr]
+   else
+    gx = ship.ts[1][lr]
+   end
+   gx += ship.x
+   gy = ship.y+3
+   acc = 5-ship.acc*5
+   gdx = rnd(acc) - acc/2
+   ship.dy -= .2
+   ship.dx *= .9
+   ship.y += 2
+   sfx(0)
+   shake(rnd(.5)-.5, rnd(1)-.5)
+   add(bullets, shoot(gx,gy,gdx,ship.bspd))
+   add(ship.flash, {x=gx,y=gy-1})
   end
-  gx += ship.x
-  gy = ship.y+3
-  acc = 5-ship.acc*5
-  gdx = rnd(acc) - acc/2
-  ship.dy -= .2
-  ship.dx *= .9
-  ship.y += 2
-  sfx(0)
-  shake(rnd(.5)-.5, rnd(1)-.5)
-  add(bullets, shoot(gx,gy,gdx,ship.bspd))
-  add(ship.flash, {x=gx,y=gy-1})
  end
  
  update_shots()
