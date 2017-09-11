@@ -92,7 +92,7 @@ function _update()
 	 											-ship.dy)/2
 	end
 	
-		ship.sp += (t/2)%4 + 1
+		ship.sp += flr(t/2)%4 + 1
 	
 	ship.x += ship.dx
 	ship.y += ship.dy
@@ -102,7 +102,7 @@ function _update()
 		lr = ((t/2)%f)/f*4+1
 		if ship.fp then
 		 gx = ship.ts[3][lr]
-		elseif ship.sp > 4.5 then
+		elseif ship.sp > 4 then
 			gx = ship.ts[2][lr]
 		else
 		 gx = ship.ts[1][lr]
@@ -146,14 +146,14 @@ function _draw()
  end
 	spr(ship.sp,ship.x,ship.y,
 					1,1,ship.fp)
-	if ship.thrust then
-		s=ship.ts[1]
-		if ship.sp > 4.5 then
-			s=ship.ts[2]
-			if ship.fp then
-				s=ship.ts[3]
-			end
+	s=ship.ts[1]
+	if ship.sp > 4 then
+		s=ship.ts[2]
+		if ship.fp then
+			s=ship.ts[3]
 		end
+	end
+	if ship.thrust then
 	 line(ship.x+s[1],ship.y+6,
 	 					ship.x+s[1],ship.y+6+rnd(1.2),
 	 					rnd(1)+9)
