@@ -25,6 +25,7 @@ function _init()
 			spd=rnd(3)
 		})
 	end
+	cam = {x=0,y=0,dx=0,dy=0}
 end
 
 function _update()
@@ -65,6 +66,7 @@ function _update()
 		ship.thrust=true
 		ship.dy = ((ship.slw-ship.mxspd)
 													-ship.dy)/2
+		shake(0,-rnd(.5))
 	elseif btn(3) then
 	 ship.dy = ((ship.mxspd-ship.slw)
 	 											-ship.dy)/2
@@ -93,6 +95,7 @@ function _update()
 		ship.dx *= .9
 		ship.y += 2
 		sfx(0)
+		shake(rnd(.5)-.5, rnd(1)-.5)
 		add(bullets, shoot(gx,gy,gdx))
 		add(ship.flash, {x=gx,y=gy-1})
 	end
@@ -106,6 +109,7 @@ function _update()
 			st.x = rnd(160)-20
 		end
 	end
+	update_cam()
 end
 
 function _draw()
@@ -173,6 +177,24 @@ function draw_shots()
 	 circ(b.x,b.y+3,1,15)
 	 circfill(b.x,b.y,2,7)
 	end
+end
+
+
+function shake(x,y)
+	x=x or rnd(1)-.5
+	y=y or rnd(1)-.5
+	cam.dx += x
+	cam.dy += y
+end
+
+function update_cam()
+	cam.x *= .8
+	cam.y *= .8
+	cam.x += cam.dx
+	cam.y += cam.dy
+	cam.dx *=.7
+	cam.dy *=.7
+ camera(cam.x,cam.y)
 end
 __gfx__
 00000000008080000080800000808000008080000082000000820000008200000082000000000000000000000000000000000000000000000000000000000000
