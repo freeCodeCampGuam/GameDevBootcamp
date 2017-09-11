@@ -12,10 +12,12 @@ function _init()
              {4,5,6}},
          dshrdy={},
          acc=.8,
-         lastd=0,dashcd=.8,
+         lastd=0,dashcd=.85,
+         dashspd=5,
          bspd=-7, 
          gun=1,guns={1,3},
          frate=.4,bcd=0,
+         kickbk=3,
          flash={}}
  t = 0
  bullets = {}
@@ -41,7 +43,7 @@ function _update()
  ship.dy *= .9
  if btn(0) then
   if ship.lastd == 0 then
-   ship.x -= 4
+   ship.x -= ship.dashspd
    ship.lastd = -1
    for i=0,rnd(3) do
     add(particles, smoke(
@@ -60,7 +62,7 @@ function _update()
              -ship.dx)/2
  elseif btn(1) then
   if ship.lastd == 0 then
-   ship.x += 4
+   ship.x += ship.dashspd
    ship.lastd = 1
    for i=0,rnd(3) do
     add(particles, smoke(
@@ -113,7 +115,7 @@ function _update()
     gx = ship.ts[1][lr]
    end
    gx += ship.x
-   gy = ship.y+3
+   gy = ship.y+ship.kickbk
    acc = 5-ship.acc*5
    gdx = rnd(acc) - acc/2
    ship.dy -= .2
