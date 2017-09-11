@@ -100,6 +100,9 @@ function _update()
  
  ship.x += ship.dx
  ship.y += ship.dy
+
+ ship.x = mid(0,ship.x,127-6)
+ ship.y = mid(0,ship.y,127-6+10)
  
  if btn(4) then
   ship.bcd -= 1
