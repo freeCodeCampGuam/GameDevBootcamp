@@ -125,7 +125,7 @@ function _update()
    ship.dx *= .9
    ship.y += 2
    sfx(0)
-   shake(rnd(.5)-.5, rnd(1)-.5)
+   shake(rnd(.5)-.25, rnd(1)-.25)
    add(bullets, shoot(gx,gy,gdx,ship.bspd))
    add(ship.flash, {x=gx,y=gy-1})
   end
