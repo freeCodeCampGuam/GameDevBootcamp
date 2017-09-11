@@ -11,12 +11,12 @@ function _init()
              {1,2,3},
              {4,5,6}},
          dshrdy={},
-         acc=.8,
+         acc=.1,
          lastd=0,dashcd=.85,
          dashspd=5,
-         bspd=-7, 
+         bspd=-9, 
          gun=1,guns={1,3},
-         frate=.4,bcd=0,
+         frate=.1,bcd=0,
          kickbk=3,
          flash={}}
  t = 0
@@ -118,7 +118,7 @@ function _update()
  ship.y += ship.dy
 
  ship.x = mid(0,ship.x,127-6)
- ship.y = mid(0,ship.y,127-6+10)
+ --ship.y = mid(0,ship.y,127-6+10)
  
  if btn(4) then
   ship.bcd -= 1
@@ -151,7 +151,7 @@ function _update()
   end
  end
 
- if ship.y > 127 then
+ if ship.y > 127 and false then
   for i=0,50 do
    add(particles, smoke(
     ship.x-2 + rnd(6+2),
@@ -209,6 +209,17 @@ function _draw()
        ship.y+6+rnd(4+ship.thrust),
        rnd(1)+9)
  end
+
+ circfill(ship.x-1,ship.y,
+          3,7)
+ circfill(ship.x+7,ship.y,
+          3,7)
+
+ circfill(ship.x-1+mid(-1,ship.dx,1),
+          ship.y  +mid(-1,ship.dy,1),2,0)
+ circfill(ship.x+7+mid(-1,ship.dx,1),
+          ship.y  +mid(-1,ship.dy,1),2,0)
+
  draw_shots()
  for f in all(ship.flash) do
   circfill(f.x,f.y,1,7)
@@ -261,7 +272,24 @@ function draw_shots()
  for b in all(bullets) do
   circ(b.x,b.y,3,15)
   circ(b.x,b.y+3,1,15)
-  circfill(b.x,b.y,2,7)
+  circfill(b.x,b.y,2,12)
+  
+  if rnd()<.4 then
+   circfill(b.x,b.y,2,0)
+  end
+  rectfill(b.x-2,b.y-2,
+           b.x+2,b.y-1,12)
+
+  circfill(b.x-3,b.y-2,2,7)
+  circfill(b.x+3,b.y-2,2,7)
+  circfill(b.x-3+mid(-1,b.dx,1),
+           b.y-2+mid(-1,b.dy,1),1,0)
+  circfill(b.x+3+mid(-1,b.dx,1),
+           b.y-2+mid(-1,b.dy,1),1,0)
+  if rnd()<.4 then
+   circfill(b.x-3,b.y-2,2,15)
+   circfill(b.x+3,b.y-2,2,15)
+  end
  end
 end
 
