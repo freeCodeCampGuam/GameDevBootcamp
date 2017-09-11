@@ -128,6 +128,17 @@ function _update()
    ship.thrust += 1
   end
  end
+
+ if ship.y > 127 then
+  for i=0,50 do
+   add(particles, smoke(
+    ship.x-2 + rnd(6+2),
+    ship.y-1 + rnd(6+2),
+    ship.dx/2+rnd(6)-3,
+    ship.dy/4+rnd(6)-3
+   ))
+  end
+ end
  
  update_shots()
  for pt in all(particles) do
