@@ -41,7 +41,7 @@ function _update()
 		ship.dx = ((ship.slw-ship.mxspd)
 													-ship.dx)/2
 	 if ship.lastd == 0 then
-	  ship.x -= 2
+	  ship.x -= 4
 	  ship.lastd = -1
 	 else
 	 	ship.lastd *= dashcd
@@ -51,7 +51,7 @@ function _update()
 	 ship.dx = ((ship.mxspd-ship.slw)
 	 											-ship.dx)/2
 	 if ship.lastd == 0 then
-	  ship.x += 2
+	  ship.x += 4
 	  ship.lastd = 1
 	 else
 	 	ship.lastd *= dashcd
