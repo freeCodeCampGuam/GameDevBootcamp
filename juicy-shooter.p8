@@ -38,10 +38,6 @@ function _update()
 	ship.dx *= .9
 	ship.dy *= .9
 	if btn(0) then
-		ship.sp += 4
-		ship.fp=true
-		ship.dx = ((ship.slw-ship.mxspd)
-													-ship.dx)/2
 	 if ship.lastd == 0 then
 	  ship.x -= 4
 	  ship.lastd = -1
@@ -56,10 +52,11 @@ function _update()
 	 else
 	 	ship.lastd *= ship.dashcd
 	 end
+		ship.sp += 4
+		ship.fp=true
+		ship.dx = ((ship.slw-ship.mxspd)
+													-ship.dx)/2
 	elseif btn(1) then
-	 ship.sp += 4
-	 ship.dx = ((ship.mxspd-ship.slw)
-	 											-ship.dx)/2
 	 if ship.lastd == 0 then
 	  ship.x += 4
 	  ship.lastd = 1
@@ -74,6 +71,9 @@ function _update()
 	 else
 	 	ship.lastd *= ship.dashcd
 	 end
+		ship.sp += 4
+	 ship.dx = ((ship.mxspd-ship.slw)
+	 											-ship.dx)/2
 	else
 		ship.lastd *= ship.dashcd
 		if abs(ship.lastd) < .05 and 
