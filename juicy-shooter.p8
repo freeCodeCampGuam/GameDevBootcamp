@@ -45,7 +45,7 @@ function _update()
   if ship.lastd == 0 then
    ship.x -= ship.dashspd
    ship.lastd = -1
-   for i=0,rnd(3) do
+   for i=0,rnd(3)+1 do
     add(particles, smoke(
      ship.x+ship.ts[2][3]+1,
      ship.y+1+rnd(4),
@@ -53,6 +53,7 @@ function _update()
      ship.dy+rnd(2)-1
     ))
    end
+   sfx(1)
   else
    ship.lastd *= ship.dashcd
   end
