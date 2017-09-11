@@ -12,10 +12,12 @@ function _init()
  							 				{4,5,6}},
  							 frate=2,
  							 flash={},
+ 							 dshrdy={},
  							 acc=.7,
  							 lastd=0,dashcd=.8}
 	t = 0
 	bullets = {}
+	particles = {}
 	stars = {}
 	starcolors={1,2,6}
 	for i=0,128 do
@@ -43,8 +45,16 @@ function _update()
 	 if ship.lastd == 0 then
 	  ship.x -= 4
 	  ship.lastd = -1
+	  for i=0,rnd(3) do
+		  add(particles, smoke(
+		  	ship.x+ship.ts[2][3]+1,
+		  	ship.y+1+rnd(4),
+		  	ship.dx/2 + rnd(2),
+		  	ship.dy+rnd(2)-1
+		  ))
+	  end
 	 else
-	 	ship.lastd *= dashcd
+	 	ship.lastd *= ship.dashcd
 	 end
 	elseif btn(1) then
 	 ship.sp += 4
@@ -53,13 +63,23 @@ function _update()
 	 if ship.lastd == 0 then
 	  ship.x += 4
 	  ship.lastd = 1
+	  for i=0,rnd(3) do
+		  add(particles, smoke(
+		  	ship.x+ship.ts[3][1]-1,
+		  	ship.y+1+rnd(4),
+		   ship.dx/2-rnd(2),
+		  	ship.dy+rnd(2)-1
+		  ))
+	  end
 	 else
-	 	ship.lastd *= dashcd
+	 	ship.lastd *= ship.dashcd
 	 end
 	else
-		ship.lastd *= dashcd
-		if abs(ship.lastd) < .05 then
+		ship.lastd *= ship.dashcd
+		if abs(ship.lastd) < .05 and 
+					ship.lastd != 0 then
 			ship.lastd = 0
+			add(ship.dshrdy, {3})
 		end
 	end
 	if btn(2) then
@@ -101,6 +121,12 @@ function _update()
 	end
 	
 	update_shots()
+	for pt in all(particles) do
+		pt.update(pt)
+		if pt.hp <= 0 then
+			del(particles, pt)
+		end
+	end
 	
 	for st in all(stars) do
 		st.y += st.spd
@@ -147,6 +173,21 @@ function _draw()
 							f.y+1,7)
 		del(ship.flash, f)
 	end
+	for d in all(ship.dshrdy) do
+		if t%3==0 then
+			pset(ship.x+s[1],ship.y+4,12)
+			pset(ship.x+s[3],ship.y+4,12)
+			d[1]-=1
+			if d[1] <= 0 then
+				del(ship.dshrdy, d)
+			end
+		end
+	end
+	
+	for pt in all(particles) do
+		pt.draw(pt)
+	end
+	
 end
 
 
@@ -179,6 +220,27 @@ function draw_shots()
 	end
 end
 
+function smoke(x,y,dx,dy,hp)
+ local s = {
+ 	x=x,
+ 	y=y,
+ 	dx=dx,
+ 	dy=dy,
+ 	hpx=hp or 20,
+ 	hp=hp  or 20,
+ 	update=function(s)
+ 	 s.dx *=.8
+ 	 s.dy *=.8
+ 	 s.x += s.dx
+ 	 s.y += s.dy
+ 	 s.hp -= 1
+ 	end,
+ 	draw=function(s)
+ 		r = (s.hp*2)/s.hpx
+ 		circfill(s.x,s.y,r,5+r)
+ 	end
+ }return s
+end
 
 function shake(x,y)
 	x=x or rnd(1)-.5
