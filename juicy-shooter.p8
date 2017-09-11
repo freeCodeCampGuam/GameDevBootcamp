@@ -16,6 +16,15 @@ function _init()
  							 lastd=0,dashcd=.8}
 	t = 0
 	bullets = {}
+	stars = {}
+	starcolors={1,2,6}
+	for i=0,128 do
+		add(stars, {
+			x=rnd(160)-20,
+			y=rnd(160)-20,
+			spd=rnd(3)
+		})
+	end
 end
 
 function _update()
@@ -89,10 +98,22 @@ function _update()
 	end
 	
 	update_shots()
+	
+	for st in all(stars) do
+		st.y += st.spd
+		if st.y > 140 then
+			st.y = rnd(5) - 20
+			st.x = rnd(160)-20
+		end
+	end
 end
 
 function _draw()
  cls()
+ for st in all(stars) do
+ 	col = starcolors[flr(st.spd)+1]
+ 	pset(st.x,st.y,col)
+ end
 	spr(ship.sp,ship.x,ship.y,
 					1,1,ship.fp)
 	if ship.thrust then
