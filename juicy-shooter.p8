@@ -3,31 +3,31 @@ version 8
 __lua__
 function _init()
  ship = {x=64,y=94, 
- 								dx=0,dy=0,
- 							 sp=1,fp=false,
- 							 thrust=false,
- 							 mxspd=5,slw=0,
- 							 ts={{0,3,6},
- 							 				{1,2,3},
- 							 				{4,5,6}},
- 							 frate=2,
- 							 flash={},
- 							 dshrdy={},
- 							 acc=.7,
- 							 lastd=0,dashcd=.8}
-	t = 0
-	bullets = {}
-	particles = {}
-	stars = {}
-	starcolors={1,2,6}
-	for i=0,128 do
-		add(stars, {
-			x=rnd(160)-20,
-			y=rnd(160)-20,
-			spd=rnd(3)
-		})
-	end
-	cam = {x=0,y=0,dx=0,dy=0}
+         dx=0,dy=0,
+         sp=1,fp=false,
+         thrust=false,
+         mxspd=5,slw=0,
+         ts={{0,3,6},
+             {1,2,3},
+             {4,5,6}},
+         frate=2,
+         flash={},
+         dshrdy={},
+         acc=.7,
+         lastd=0,dashcd=.8}
+ t = 0
+ bullets = {}
+ particles = {}
+ stars = {}
+ starcolors={1,2,6}
+ for i=0,128 do
+  add(stars, {
+   x=rnd(160)-20,
+   y=rnd(160)-20,
+   spd=rnd(3)
+  })
+ end
+ cam = {x=0,y=0,dx=0,dy=0}
 end
 
 function _update()
@@ -35,227 +35,227 @@ function _update()
  ship.sp = 0
  ship.thrust = false
  ship.fp = false
-	ship.dx *= .9
-	ship.dy *= .9
-	if btn(0) then
-	 if ship.lastd == 0 then
-	  ship.x -= 4
-	  ship.lastd = -1
-	  for i=0,rnd(3) do
-		  add(particles, smoke(
-		  	ship.x+ship.ts[2][3]+1,
-		  	ship.y+1+rnd(4),
-		  	ship.dx/2 + rnd(2),
-		  	ship.dy+rnd(2)-1
-		  ))
-	  end
-	 else
-	 	ship.lastd *= ship.dashcd
-	 end
-		ship.sp += 4
-		ship.fp=true
-		ship.dx = ((ship.slw-ship.mxspd)
-													-ship.dx)/2
-	elseif btn(1) then
-	 if ship.lastd == 0 then
-	  ship.x += 4
-	  ship.lastd = 1
-	  for i=0,rnd(3) do
-		  add(particles, smoke(
-		  	ship.x+ship.ts[3][1]-1,
-		  	ship.y+1+rnd(4),
-		   ship.dx/2-rnd(2),
-		  	ship.dy+rnd(2)-1
-		  ))
-	  end
-	 else
-	 	ship.lastd *= ship.dashcd
-	 end
-		ship.sp += 4
-	 ship.dx = ((ship.mxspd-ship.slw)
-	 											-ship.dx)/2
-	else
-		ship.lastd *= ship.dashcd
-		if abs(ship.lastd) < .05 and 
-					ship.lastd != 0 then
-			ship.lastd = 0
-			add(ship.dshrdy, {3})
-		end
-	end
-	if btn(2) then
-		ship.thrust=true
-		ship.dy = ((ship.slw-ship.mxspd)
-													-ship.dy)/2
-		shake(0,-rnd(.5))
-	elseif btn(3) then
-	 ship.dy = ((ship.mxspd-ship.slw)
-	 											-ship.dy)/2
-	end
-	
-		ship.sp += flr(t/2)%4 + 1
-	
-	ship.x += ship.dx
-	ship.y += ship.dy
-	
-	if btn(4) and (t%ship.frate==0) then
-		f = ship.frate
-		lr = ((t/2)%f)/f*4+1
-		if ship.fp then
-		 gx = ship.ts[3][lr]
-		elseif ship.sp > 4 then
-			gx = ship.ts[2][lr]
-		else
-		 gx = ship.ts[1][lr]
-		end
-		gx += ship.x
-		gy = ship.y+3
-		acc = 5-ship.acc*5
-		gdx = rnd(acc) - acc/2
-		ship.dy -= .2
-		ship.dx *= .9
-		ship.y += 2
-		sfx(0)
-		shake(rnd(.5)-.5, rnd(1)-.5)
-		add(bullets, shoot(gx,gy,gdx))
-		add(ship.flash, {x=gx,y=gy-1})
-	end
-	
-	update_shots()
-	for pt in all(particles) do
-		pt.update(pt)
-		if pt.hp <= 0 then
-			del(particles, pt)
-		end
-	end
-	
-	for st in all(stars) do
-		st.y += st.spd
-		if st.y > 140 then
-			st.y = rnd(5) - 20
-			st.x = rnd(160)-20
-		end
-	end
-	update_cam()
+ ship.dx *= .9
+ ship.dy *= .9
+ if btn(0) then
+  if ship.lastd == 0 then
+   ship.x -= 4
+   ship.lastd = -1
+   for i=0,rnd(3) do
+    add(particles, smoke(
+     ship.x+ship.ts[2][3]+1,
+     ship.y+1+rnd(4),
+     ship.dx/2 + rnd(2),
+     ship.dy+rnd(2)-1
+    ))
+   end
+  else
+   ship.lastd *= ship.dashcd
+  end
+  ship.sp += 4
+  ship.fp=true
+  ship.dx = ((ship.slw-ship.mxspd)
+             -ship.dx)/2
+ elseif btn(1) then
+  if ship.lastd == 0 then
+   ship.x += 4
+   ship.lastd = 1
+   for i=0,rnd(3) do
+    add(particles, smoke(
+     ship.x+ship.ts[3][1]-1,
+     ship.y+1+rnd(4),
+     ship.dx/2-rnd(2),
+     ship.dy+rnd(2)-1
+    ))
+   end
+  else
+   ship.lastd *= ship.dashcd
+  end
+  ship.sp += 4
+  ship.dx = ((ship.mxspd-ship.slw)
+             -ship.dx)/2
+ else
+  ship.lastd *= ship.dashcd
+  if abs(ship.lastd) < .05 and 
+     ship.lastd != 0 then
+   ship.lastd = 0
+   add(ship.dshrdy, {3})
+  end
+ end
+ if btn(2) then
+  ship.thrust=true
+  ship.dy = ((ship.slw-ship.mxspd)
+             -ship.dy)/2
+  shake(0,-rnd(.5))
+ elseif btn(3) then
+  ship.dy = ((ship.mxspd-ship.slw)
+             -ship.dy)/2
+ end
+ 
+  ship.sp += flr(t/2)%4 + 1
+ 
+ ship.x += ship.dx
+ ship.y += ship.dy
+ 
+ if btn(4) and (t%ship.frate==0) then
+  f = ship.frate
+  lr = ((t/2)%f)/f*4+1
+  if ship.fp then
+   gx = ship.ts[3][lr]
+  elseif ship.sp > 4 then
+   gx = ship.ts[2][lr]
+  else
+   gx = ship.ts[1][lr]
+  end
+  gx += ship.x
+  gy = ship.y+3
+  acc = 5-ship.acc*5
+  gdx = rnd(acc) - acc/2
+  ship.dy -= .2
+  ship.dx *= .9
+  ship.y += 2
+  sfx(0)
+  shake(rnd(.5)-.5, rnd(1)-.5)
+  add(bullets, shoot(gx,gy,gdx))
+  add(ship.flash, {x=gx,y=gy-1})
+ end
+ 
+ update_shots()
+ for pt in all(particles) do
+  pt.update(pt)
+  if pt.hp <= 0 then
+   del(particles, pt)
+  end
+ end
+ 
+ for st in all(stars) do
+  st.y += st.spd
+  if st.y > 140 then
+   st.y = rnd(5) - 20
+   st.x = rnd(160)-20
+  end
+ end
+ update_cam()
 end
 
 function _draw()
  cls()
  for st in all(stars) do
- 	col = starcolors[flr(st.spd)+1]
- 	pset(st.x,st.y,col)
+  col = starcolors[flr(st.spd)+1]
+  pset(st.x,st.y,col)
  end
-	spr(ship.sp,ship.x,ship.y,
-					1,1,ship.fp)
-	s=ship.ts[1]
-	if ship.sp > 4 then
-		s=ship.ts[2]
-		if ship.fp then
-			s=ship.ts[3]
-		end
-	end
-	if ship.thrust then
-	 line(ship.x+s[1],ship.y+6,
-	 					ship.x+s[1],ship.y+6+rnd(1.2),
-	 					rnd(1)+9)
-	 line(ship.x+s[3],ship.y+6,
-	 					ship.x+s[3],ship.y+6+rnd(1.2),
-	 					rnd(1)+9)
-	 line(ship.x+s[2],ship.y+6,
-	 					ship.x+s[2],ship.y+6+rnd(5),
-	 					rnd(1)+9)
-	end
-	draw_shots()
-	for f in all(ship.flash) do
-		circfill(f.x,f.y,1,7)
-		pset(f.x+2,
-							f.y+1,7)
-		pset(f.x-2,
-							f.y+1,7)
-		del(ship.flash, f)
-	end
-	for d in all(ship.dshrdy) do
-		if t%3==0 then
-			pset(ship.x+s[1],ship.y+4,12)
-			pset(ship.x+s[3],ship.y+4,12)
-			d[1]-=1
-			if d[1] <= 0 then
-				del(ship.dshrdy, d)
-			end
-		end
-	end
-	
-	for pt in all(particles) do
-		pt.draw(pt)
-	end
-	
+ spr(ship.sp,ship.x,ship.y,
+     1,1,ship.fp)
+ s=ship.ts[1]
+ if ship.sp > 4 then
+  s=ship.ts[2]
+  if ship.fp then
+   s=ship.ts[3]
+  end
+ end
+ if ship.thrust then
+  line(ship.x+s[1],ship.y+6,
+       ship.x+s[1],ship.y+6+rnd(1.2),
+       rnd(1)+9)
+  line(ship.x+s[3],ship.y+6,
+       ship.x+s[3],ship.y+6+rnd(1.2),
+       rnd(1)+9)
+  line(ship.x+s[2],ship.y+6,
+       ship.x+s[2],ship.y+6+rnd(5),
+       rnd(1)+9)
+ end
+ draw_shots()
+ for f in all(ship.flash) do
+  circfill(f.x,f.y,1,7)
+  pset(f.x+2,
+       f.y+1,7)
+  pset(f.x-2,
+       f.y+1,7)
+  del(ship.flash, f)
+ end
+ for d in all(ship.dshrdy) do
+  if t%3==0 then
+   pset(ship.x+s[1],ship.y+4,12)
+   pset(ship.x+s[3],ship.y+4,12)
+   d[1]-=1
+   if d[1] <= 0 then
+    del(ship.dshrdy, d)
+   end
+  end
+ end
+ 
+ for pt in all(particles) do
+  pt.draw(pt)
+ end
+ 
 end
 
 
 function shoot(x,y,dx,dy,dmg)
-	local b = {
-		x=x,
-		y=y,
-		dx=dx or 0,
-		dy=dy or -5,
-		dmg=dmg or 1
-	}
-	return b
+ local b = {
+  x=x,
+  y=y,
+  dx=dx or 0,
+  dy=dy or -5,
+  dmg=dmg or 1
+ }
+ return b
 end
 
 function update_shots()
-	for b in all(bullets) do
-	 b.x+=b.dx
-	 b.y+=b.dy
-	 if b.y < -10 then
-	 	del(bullets,b)
-	 end
-	end
+ for b in all(bullets) do
+  b.x+=b.dx
+  b.y+=b.dy
+  if b.y < -10 then
+   del(bullets,b)
+  end
+ end
 end
 
 function draw_shots()
-	for b in all(bullets) do
-	 circ(b.x,b.y,3,15)
-	 circ(b.x,b.y+3,1,15)
-	 circfill(b.x,b.y,2,7)
-	end
+ for b in all(bullets) do
+  circ(b.x,b.y,3,15)
+  circ(b.x,b.y+3,1,15)
+  circfill(b.x,b.y,2,7)
+ end
 end
 
 function smoke(x,y,dx,dy,hp)
  local s = {
- 	x=x,
- 	y=y,
- 	dx=dx,
- 	dy=dy,
- 	hpx=hp or 20,
- 	hp=hp  or 20,
- 	update=function(s)
- 	 s.dx *=.8
- 	 s.dy *=.8
- 	 s.x += s.dx
- 	 s.y += s.dy
- 	 s.hp -= 1
- 	end,
- 	draw=function(s)
- 		r = (s.hp*2)/s.hpx
- 		circfill(s.x,s.y,r,5+r)
- 	end
+  x=x,
+  y=y,
+  dx=dx,
+  dy=dy,
+  hpx=hp or 20,
+  hp=hp  or 20,
+  update=function(s)
+   s.dx *=.8
+   s.dy *=.8
+   s.x += s.dx
+   s.y += s.dy
+   s.hp -= 1
+  end,
+  draw=function(s)
+   r = (s.hp*2)/s.hpx
+   circfill(s.x,s.y,r,5+r)
+  end
  }return s
 end
 
 function shake(x,y)
-	x=x or rnd(1)-.5
-	y=y or rnd(1)-.5
-	cam.dx += x
-	cam.dy += y
+ x=x or rnd(1)-.5
+ y=y or rnd(1)-.5
+ cam.dx += x
+ cam.dy += y
 end
 
 function update_cam()
-	cam.x *= .8
-	cam.y *= .8
-	cam.x += cam.dx
-	cam.y += cam.dy
-	cam.dx *=.7
-	cam.dy *=.7
+ cam.x *= .8
+ cam.y *= .8
+ cam.x += cam.dx
+ cam.y += cam.dy
+ cam.dx *=.7
+ cam.dy *=.7
  camera(cam.x,cam.y)
 end
 __gfx__
