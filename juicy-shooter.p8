@@ -73,6 +73,7 @@ function _update()
      ship.dy+rnd(2)-1
     ))
    end
+   sfx(1)
   else
    ship.lastd *= ship.dashcd
   end
