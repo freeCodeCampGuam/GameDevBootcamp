@@ -5,7 +5,7 @@ function _init()
  ship = {x=64,y=94, 
          dx=0,dy=0,
          sp=1,fp=false,
-         thrust=false,
+         thrust=0,
          mxspd=5,slw=0,
          ts={{0,3,6},
              {1,2,3},
@@ -35,7 +35,7 @@ end
 function _update()
  t += 1
  ship.sp = 0
- ship.thrust = false
+ ship.thrust = 0
  ship.fp = false
  ship.dx *= .9
  ship.dy *= .9
@@ -85,8 +85,8 @@ function _update()
   end
  end
  if btn(2) then
-  ship.thrust=true
   ship.dy = ((ship.slw-ship.mxspd)
+  ship.thrust=1
              -ship.dy)/2
   shake(0,-rnd(.5))
  elseif btn(3) then
@@ -124,6 +124,9 @@ function _update()
    add(bullets, shoot(gx,gy,gdx,ship.bspd))
    add(ship.flash, {x=gx,y=gy-1})
   end
+  if shot and not back then
+   ship.thrust += 1
+  end
  end
  
  update_shots()
@@ -159,15 +162,18 @@ function _draw()
    s=ship.ts[3]
   end
  end
- if ship.thrust then
+ if ship.thrust>0 then
   line(ship.x+s[1],ship.y+6,
-       ship.x+s[1],ship.y+6+rnd(1.2),
+       ship.x+s[1],
+       ship.y+6+rnd(1.2*ship.thrust),
        rnd(1)+9)
   line(ship.x+s[3],ship.y+6,
-       ship.x+s[3],ship.y+6+rnd(1.2),
+       ship.x+s[3],
+       ship.y+6+rnd(1.2*ship.thrust),
        rnd(1)+9)
   line(ship.x+s[2],ship.y+6,
-       ship.x+s[2],ship.y+6+rnd(5),
+       ship.x+s[2],
+       ship.y+6+rnd(4+ship.thrust),
        rnd(1)+9)
  end
  draw_shots()
