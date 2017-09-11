@@ -14,7 +14,8 @@ function _init()
          flash={},
          dshrdy={},
          acc=.7,
-         lastd=0,dashcd=.8}
+         lastd=0,dashcd=.8,
+         bspd=-7}
  t = 0
  bullets = {}
  particles = {}
@@ -116,7 +117,7 @@ function _update()
   ship.y += 2
   sfx(0)
   shake(rnd(.5)-.5, rnd(1)-.5)
-  add(bullets, shoot(gx,gy,gdx))
+  add(bullets, shoot(gx,gy,gdx,ship.bspd))
   add(ship.flash, {x=gx,y=gy-1})
  end
  
