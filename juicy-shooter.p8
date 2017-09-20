@@ -48,10 +48,8 @@ function init_title()
  r=0
  lx=-32
  lw=0
- s = cos(t/200)*10
- ds= cos(t/100)*10
- ps={ds,ds}
- flat = true
+
+ sx = 0
 end
 
 function update_title()
@@ -59,23 +57,13 @@ function update_title()
  tr+=0.01
  r+= 0.001
 
- s = cos(t/100)*10+10
- ps[2] = ps[1]
- ps[1] = ds
- ds= cos(t/200)*10+10
-
- if ps[2] > ps[1] and 
-    ps[1] < ds and
-    s < 10 then
-  flat = not flat
- end
-
- if not flat then
-  lw = s
- end
+ sx += .25
+ sx %= 128
 
  if t%400 > 200 or lx > 0 then
   lx = (lx+4+32)%(130*8) -32
+  lxm = mid(0,128*2,lx)
+  lw = -cos((lxm+50)/((128+50)*2))*10 + 10
  end
  if (btn(5)) change_state(st_title_game)
 end
@@ -98,6 +86,7 @@ function draw_title()
   )
  end end
  print(lw,0,0,0)
+ circfill(sx,64-lw,3,8)
 end
 
 function init_game()
