@@ -113,6 +113,9 @@ end
 
 function update_ship()
  back = false
+ shot_slow = 1
+ if (btn(4))shot_slow = .7
+ if (shot)  shot_slow = .5
  shot = false
  ship.sp = 0
  ship.thrust = 0
@@ -139,7 +142,7 @@ function update_ship()
   end
   ship.sp += 4
   ship.fp=true
-  ship.dx = ((ship.slw-ship.mxspd)
+  ship.dx = ((ship.slw-ship.mxspd * shot_slow)
              -ship.dx)/2
  elseif btn(1) then --right
   --can dash
@@ -159,7 +162,7 @@ function update_ship()
    ship.lastd *= ship.dashcd
   end
   ship.sp += 4
-  ship.dx = ((ship.mxspd-ship.slw)
+  ship.dx = ((ship.mxspd * shot_slow-ship.slw)
              -ship.dx)/2
  else
   ship.lastd *= ship.dashcd
@@ -172,24 +175,13 @@ function update_ship()
  -- up has thrust animation
  if btn(2) then
   ship.thrust=1
-  if btn(4) and ship.dy < -ship.mxspd/2 then
-   ship.dy = min(((ship.slw-ship.mxspd*ship.kickbk)
-                 -ship.dy)/2, ship.dy)
-  else
-   ship.dy = min(((ship.slw-ship.mxspd)
-                 -ship.dy)/2, ship.dy)
-  end
+  ship.dy = min(((ship.slw-ship.mxspd)
+                   -ship.dy)/2, ship.dy)
   shake(0,-rnd(.5))
  -- down
  elseif btn(3) then
-  if btn(4) and ship.dy < -ship.mxspd/2 then
-   ship.dy = max(((ship.mxspd-ship.slw*ship.kickbk
-                 +ship.dy*ship.kickbk)
-                 -ship.dy)/2, ship.dy)
-  else
-   ship.dy = max(((ship.mxspd-ship.slw)
-                 -ship.dy)/2, ship.dy)
-  end
+  ship.dy = max(((ship.mxspd-ship.slw)
+                   -ship.dy)/2, ship.dy)
   back = true
  end
  
@@ -222,9 +214,14 @@ function update_ship()
    gy = ship.y+ship.kickbk
    acc = 5-ship.acc*5
    gdx = rnd(acc) - acc/2
-   ship.dy -= .2
+   if btn(2) then
+    ship.dy -= ship.mxspd/100
+   elseif btn(3) then
+    ship.dy -= ship.mxspd/5
+   end
+   ship.dy -= ship.mxspd/25
    ship.dx *= .9
-   ship.y += 2
+   ship.y += ship.mxspd/2.5
    sfx(0)
    shake(rnd(.5)-.25, rnd(1)-.25)
    add(bullets, shoot(gx,gy,gdx,ship.bspd))
