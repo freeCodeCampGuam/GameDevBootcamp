@@ -36,132 +36,8 @@ end
 
 function _update()
  t += 1
- back = false
- shot = false
- ship.sp = 0
- ship.thrust = 0
- ship.fp = false
- ship.dx *= .9
- ship.dy *= .9
- if btn(0) then
-  if ship.lastd == 0 then
-   ship.x -= ship.dashspd
-   ship.lastd = -1
-   for i=0,rnd(3)+1 do
-    add(particles, smoke(
-     ship.x+ship.ts[2][3]+1,
-     ship.y+1+rnd(4),
-     ship.dx/2 + rnd(2),
-     ship.dy+rnd(2)-1
-    ))
-   end
-   sfx(1)
-  else
-   ship.lastd *= ship.dashcd
-  end
-  ship.sp += 4
-  ship.fp=true
-  ship.dx = ((ship.slw-ship.mxspd)
-             -ship.dx)/2
- elseif btn(1) then
-  if ship.lastd == 0 then
-   ship.x += ship.dashspd
-   ship.lastd = 1
-   for i=0,rnd(3) do
-    add(particles, smoke(
-     ship.x+ship.ts[3][1]-1,
-     ship.y+1+rnd(4),
-     ship.dx/2-rnd(2),
-     ship.dy+rnd(2)-1
-    ))
-   end
-   sfx(1)
-  else
-   ship.lastd *= ship.dashcd
-  end
-  ship.sp += 4
-  ship.dx = ((ship.mxspd-ship.slw)
-             -ship.dx)/2
- else
-  ship.lastd *= ship.dashcd
-  if abs(ship.lastd) < .05 and 
-     ship.lastd != 0 then
-   ship.lastd = 0
-   add(ship.dshrdy, {3})
-  end
- end
- if btn(2) then
-  ship.thrust=1
-  if btn(4) and ship.dy < -ship.mxspd/2 then
-   ship.dy = min(((ship.slw-ship.mxspd*ship.kickbk)
-                 -ship.dy)/2, ship.dy)
-  else
-   ship.dy = min(((ship.slw-ship.mxspd)
-                 -ship.dy)/2, ship.dy)
-  end
-  shake(0,-rnd(.5))
- elseif btn(3) then
-  if btn(4) and ship.dy < -ship.mxspd/2 then
-   ship.dy = max(((ship.mxspd-ship.slw*ship.kickbk
-                 +ship.dy*ship.kickbk)
-                 -ship.dy)/2, ship.dy)
-  else
-   ship.dy = max(((ship.mxspd-ship.slw)
-                 -ship.dy)/2, ship.dy)
-  end
-  back = true
- end
- 
-  ship.sp += flr(t/2)%4 + 1
- 
- ship.x += ship.dx
- ship.y += ship.dy
 
- ship.x = mid(0,ship.x,127-6)
- ship.y = mid(0,ship.y,127-6+10)
- 
- if btn(4) then
-  ship.bcd -= 1
-  while ship.bcd <= 0 do
-   shot = true
-   ship.bcd += ship.frate
-   ship.gun = (ship.gun%#ship.guns) + 1
-   lr = ship.guns[ship.gun]
-   if ship.fp then
-    gx = ship.ts[3][lr]
-   elseif ship.sp > 4 then
-    gx = ship.ts[2][lr]
-   else
-    gx = ship.ts[1][lr]
-   end
-   gx += ship.x
-   gy = ship.y+ship.kickbk
-   acc = 5-ship.acc*5
-   gdx = rnd(acc) - acc/2
-   ship.dy -= .2
-   ship.dx *= .9
-   ship.y += 2
-   sfx(0)
-   shake(rnd(.5)-.25, rnd(1)-.25)
-   add(bullets, shoot(gx,gy,gdx,ship.bspd))
-   add(ship.flash, {x=gx,y=gy-1})
-  end
-  if shot and not back then
-   ship.thrust += 1
-  end
- end
-
- if ship.y > 127 then
-  for i=0,50 do
-   add(particles, smoke(
-    ship.x-2 + rnd(6+2),
-    ship.y-1 + rnd(6+2),
-    ship.dx/2+rnd(6)-3,
-    ship.dy/4+rnd(6)-3
-   ))
-  end
- end
- 
+ update_ship()
  update_shots()
  for pt in all(particles) do
   pt.update(pt)
@@ -235,6 +111,141 @@ function _draw()
  
 end
 
+function update_ship()
+ back = false
+ shot = false
+ ship.sp = 0
+ ship.thrust = 0
+ ship.fp = false
+ ship.dx *= .9
+ ship.dy *= .9
+ --movement
+ if btn(0) then --left
+  --can dash
+  if ship.lastd == 0 then
+   ship.x -= ship.dashspd
+   ship.lastd = -1
+   for i=0,rnd(3)+1 do
+    add(particles, smoke(
+     ship.x+ship.ts[2][3]+1,
+     ship.y+1+rnd(4),
+     ship.dx/2 + rnd(2),
+     ship.dy+rnd(2)-1
+    ))
+   end
+   sfx(1)
+  else
+   ship.lastd *= ship.dashcd
+  end
+  ship.sp += 4
+  ship.fp=true
+  ship.dx = ((ship.slw-ship.mxspd)
+             -ship.dx)/2
+ elseif btn(1) then --right
+  --can dash
+  if ship.lastd == 0 then
+   ship.x += ship.dashspd
+   ship.lastd = 1
+   for i=0,rnd(3) do
+    add(particles, smoke(
+     ship.x+ship.ts[3][1]-1,
+     ship.y+1+rnd(4),
+     ship.dx/2-rnd(2),
+     ship.dy+rnd(2)-1
+    ))
+   end
+   sfx(1)
+  else
+   ship.lastd *= ship.dashcd
+  end
+  ship.sp += 4
+  ship.dx = ((ship.mxspd-ship.slw)
+             -ship.dx)/2
+ else
+  ship.lastd *= ship.dashcd
+  if abs(ship.lastd) < .05 and 
+     ship.lastd != 0 then
+   ship.lastd = 0
+   add(ship.dshrdy, {3})
+  end
+ end
+ -- up has thrust animation
+ if btn(2) then
+  ship.thrust=1
+  if btn(4) and ship.dy < -ship.mxspd/2 then
+   ship.dy = min(((ship.slw-ship.mxspd*ship.kickbk)
+                 -ship.dy)/2, ship.dy)
+  else
+   ship.dy = min(((ship.slw-ship.mxspd)
+                 -ship.dy)/2, ship.dy)
+  end
+  shake(0,-rnd(.5))
+ -- down
+ elseif btn(3) then
+  if btn(4) and ship.dy < -ship.mxspd/2 then
+   ship.dy = max(((ship.mxspd-ship.slw*ship.kickbk
+                 +ship.dy*ship.kickbk)
+                 -ship.dy)/2, ship.dy)
+  else
+   ship.dy = max(((ship.mxspd-ship.slw)
+                 -ship.dy)/2, ship.dy)
+  end
+  back = true
+ end
+ 
+  ship.sp += flr(t/2)%4 + 1
+ 
+ ship.x += ship.dx
+ ship.y += ship.dy
+
+ ship.x = mid(0,ship.x,127-6)
+ ship.y = mid(0,ship.y,127-6+10)
+ 
+ -- shoot
+ if btn(4) then
+  ship.bcd -= 1
+  -- keep shooting until we 
+  -- need to wait for cooldown
+  while ship.bcd <= 0 do
+   shot = true
+   ship.bcd += ship.frate
+   ship.gun = (ship.gun%#ship.guns) + 1
+   lr = ship.guns[ship.gun]
+   if ship.fp then
+    gx = ship.ts[3][lr]
+   elseif ship.sp > 4 then
+    gx = ship.ts[2][lr]
+   else
+    gx = ship.ts[1][lr]
+   end
+   gx += ship.x
+   gy = ship.y+ship.kickbk
+   acc = 5-ship.acc*5
+   gdx = rnd(acc) - acc/2
+   ship.dy -= .2
+   ship.dx *= .9
+   ship.y += 2
+   sfx(0)
+   shake(rnd(.5)-.25, rnd(1)-.25)
+   add(bullets, shoot(gx,gy,gdx,ship.bspd))
+   add(ship.flash, {x=gx,y=gy-1})
+  end
+  if shot and not back then
+   ship.thrust += 1
+  end
+ end
+
+ if ship.y > 127 then
+  for i=0,50 do
+   add(particles, smoke(
+    ship.x-2 + rnd(6+2),
+    ship.y-1 + rnd(6+2),
+    ship.dx/2+rnd(6)-3,
+    ship.dy/4+rnd(6)-3
+   ))
+  end
+ end
+end
 
 function shoot(x,y,dx,dy,dmg)
  local b = {
