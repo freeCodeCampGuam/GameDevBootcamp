@@ -2,23 +2,61 @@ pico-8 cartridge // http://www.pico-8.com
 version 8
 __lua__
 function _init()
- ship = {x=64,y=94, 
-         dx=0,dy=0,
-         sp=1,fp=false,
-         thrust=0,
-         mxspd=5,slw=0,
-         ts={{0,3,6},
-             {1,2,3},
-             {4,5,6}},
-         dshrdy={},
-         acc=.8,
-         lastd=0,dashcd=.85,
-         dashspd=5,
-         bspd=-7, 
-         gun=1,guns={1,3},
-         frate=.4,bcd=0,
-         kickbk=3,
-         flash={}}
+ st_title = 0
+ st_game = 1
+ st_game_over = 2
+
+ change_state(st_title)
+end
+
+function change_state(st)
+ state = st
+ init()
+end
+
+function init()
+ if (state==st_title) init_title()
+ if (state==st_game) init_game()
+ if (state==st_game_over) init_game_over()
+end
+
+function _update()
+ if (state==st_title) update_title()
+ if (state==st_game) update_game()
+ if (state==st_game_over) update_game_over()
+end
+
+function _draw()
+ if (state==st_title) draw_title()
+ if (state==st_game) draw_game()
+ if (state==st_game_over) draw_game_over()
+end
+
+function init_title()
+ change_state(st_game)
+end
+
+function init_game()
+ ship = {
+  x=64,y=94, 
+  dx=0,dy=0,
+  sp=1,fp=false,
+  thrust=0,
+  mxspd=5,slw=0,
+  ts={{0,3,6},
+      {1,2,3},
+      {4,5,6}},
+  dshrdy={},
+  acc=.8,
+  lastd=0,dashcd=.85,
+  dashspd=5,
+  bspd=-7, 
+  gun=1,guns={1,3},
+  frate=.4,bcd=0,
+  kickbk=3,
+  flash={}
+ }
+
  t = 0
  bullets = {}
  particles = {}
@@ -32,9 +70,10 @@ function _init()
   })
  end
  cam = {x=0,y=0,dx=0,dy=0}
+ camera(0,0)
 end
 
-function _update()
+function update_game()
  t += 1
 
  update_ship()
@@ -56,58 +95,19 @@ function _update()
  update_cam()
 end
 
-function _draw()
+function draw_game()
  cls()
- for st in all(stars) do
-  col = starcolors[flr(st.spd)+1]
-  pset(st.x,st.y,col)
- end
- spr(ship.sp,ship.x,ship.y,
-     1,1,ship.fp)
- s=ship.ts[1]
- if ship.sp > 4 then
-  s=ship.ts[2]
-  if ship.fp then
-   s=ship.ts[3]
-  end
- end
- if ship.thrust>0 then
-  line(ship.x+s[1],ship.y+6,
-       ship.x+s[1],
-       ship.y+6+rnd(1.2*ship.thrust),
-       rnd(1)+9)
-  line(ship.x+s[3],ship.y+6,
-       ship.x+s[3],
-       ship.y+6+rnd(1.2*ship.thrust),
-       rnd(1)+9)
-  line(ship.x+s[2],ship.y+6,
-       ship.x+s[2],
-       ship.y+6+rnd(4+ship.thrust),
-       rnd(1)+9)
- end
- draw_shots()
- for f in all(ship.flash) do
-  circfill(f.x,f.y,1,7)
-  pset(f.x+2,
-       f.y+1,7)
-  pset(f.x-2,
-       f.y+1,7)
-  del(ship.flash, f)
- end
- for d in all(ship.dshrdy) do
-  if t%3==0 then
-   pset(ship.x+s[1],ship.y+4,12)
-   pset(ship.x+s[3],ship.y+4,12)
-   d[1]-=1
-   if d[1] <= 0 then
-    del(ship.dshrdy, d)
-   end
-  end
- end
  
- for pt in all(particles) do
-  pt.draw(pt)
- end
+ draw_stars()
+
+ draw_ship()
+
+ draw_shots()
+ 
+ draw_ship_muzzle_flash()
+ draw_ship_lights()
+ 
+ draw_particles()
  
 end
 
@@ -244,6 +244,56 @@ function update_ship()
  end
 end
 
+function draw_ship()
+ spr(ship.sp,ship.x,ship.y,
+     1,1,ship.fp)
+ s=ship.ts[1]
+ if ship.sp > 4 then
+  s=ship.ts[2]
+  if ship.fp then
+   s=ship.ts[3]
+  end
+ end
+ if ship.thrust>0 then
+  line(ship.x+s[1],ship.y+6,
+       ship.x+s[1],
+       ship.y+6+rnd(1.2*ship.thrust),
+       rnd(1)+9)
+  line(ship.x+s[3],ship.y+6,
+       ship.x+s[3],
+       ship.y+6+rnd(1.2*ship.thrust),
+       rnd(1)+9)
+  line(ship.x+s[2],ship.y+6,
+       ship.x+s[2],
+       ship.y+6+rnd(4+ship.thrust),
+       rnd(1)+9)
+ end
+end
+
+function draw_ship_muzzle_flash()
+ for f in all(ship.flash) do
+  circfill(f.x,f.y,1,7)
+  pset(f.x+2,
+       f.y+1,7)
+  pset(f.x-2,
+       f.y+1,7)
+  del(ship.flash, f)
+ end
+end
+
+function draw_ship_lights()
+ for d in all(ship.dshrdy) do
+  if t%3==0 then
+   pset(ship.x+s[1],ship.y+4,12)
+   pset(ship.x+s[3],ship.y+4,12)
+   d[1]-=1
+   if d[1] <= 0 then
+    del(ship.dshrdy, d)
+   end
+  end
+ end
+end
+
 function shoot(x,y,dx,dy,dmg)
  local b = {
   x=x,
@@ -310,6 +360,19 @@ function update_cam()
  cam.dx *=.7
  cam.dy *=.7
  camera(cam.x,cam.y)
+end
+
+function draw_stars()
+ for st in all(stars) do
+  col = starcolors[flr(st.spd)+1]
+  pset(st.x,st.y,col)
+ end
+end
+
+function draw_particles()
+ for pt in all(particles) do
+  pt.draw(pt)
+ end
 end
 __gfx__
 00000000008080000080800000808000008080000082000000820000008200000082000000000000000000000000000000000000000000000000000000000000
