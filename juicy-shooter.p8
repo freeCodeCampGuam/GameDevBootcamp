@@ -47,12 +47,18 @@ function init_title()
  tr=0
  r=0
  lx=-32
- lw=0
+ lw=3
+ li=4
+ lc = 1
+ lcs = {3,3,2,1,13,12,11}
 
  sx = 0
+
+ init_game()
 end
 
 function update_title()
+ if (btn(5)) change_state(st_title_game)
  t+=0.8
  tr+=0.01
  r+= 0.001
@@ -61,20 +67,31 @@ function update_title()
  sx %= 128
 
  if t%400 > 200 or lx > 0 then
-  lx = (lx+4+32)%(130*8) -32
+  lx = (lx+li+32)%(130*(li*2)) -32
+  if (lx == -32) lc += .5
   lxm = mid(0,128*2,lx)
   lw = -cos((lxm+50)/((128+50)*2))*10 + 10
  end
- if (btn(5)) change_state(st_title_game)
+ update_stars()
 end
 
 function draw_title()
- cls(3)
+ cls()
+ draw_stars()
+
  -- line wave
- for i=-lw,lw do
-  line(0,128*2-lx-i,128*2-lx-i,0,0)
+ lcc = lcs[flr(lc-1)%#lcs+1]
+ lcm = lcs[flr(lc-.5)%#lcs+1]
+ for i=-1,-lw+lx do
+  line(0,128*2-i,128*2-i,0,lcm)
  end
- line(0,128*2-lx,128*2-lx,0,8)
+ for i=lw+lx,128*2 do
+  line(0,128*2-i,128*2-i,0,lcc)
+ end
+ -- for i=-lw,lw do
+ --  line(0,128*2-lx-i,128*2-lx-i,0,0)
+ -- end
+ --line(0,128*2-lx,128*2-lx,0,8)
 
  -- logo wave
  rr = max(sin(r)*16, sin(r)*4 + 2)
@@ -85,8 +102,6 @@ function draw_title()
    3,4
   )
  end end
- print(lw,0,0,0)
- circfill(sx,64-lw,3,8)
 end
 
 function init_game()
@@ -138,13 +153,7 @@ function update_game()
   end
  end
  
- for st in all(stars) do
-  st.y += st.spd
-  if st.y > 140 then
-   st.y = rnd(5) - 20
-   st.x = rnd(160)-20
-  end
- end
+ update_stars()
  update_cam()
 end
 
@@ -413,6 +422,16 @@ function update_cam()
  cam.dx *=.7
  cam.dy *=.7
  camera(cam.x,cam.y)
+end
+
+function update_stars()
+ for st in all(stars) do
+  st.y += st.spd
+  if st.y > 140 then
+   st.y = rnd(5) - 20
+   st.x = rnd(160)-20
+  end
+ end
 end
 
 function draw_stars()
