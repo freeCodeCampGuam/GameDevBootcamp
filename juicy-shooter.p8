@@ -50,7 +50,7 @@ function init_title()
  lw=3
  li=4
  lc = 1
- lcs = {3,3,2,1,13,12,11}
+ lcs = {3,3,2,1,12,9,14,2}
 
  sx = 0
 
@@ -77,7 +77,11 @@ end
 
 function draw_title()
  cls()
- draw_stars()
+ if lc > 3.5 then
+  draw_game()
+ elseif lc > 1.5 then 
+  draw_stars()
+ end
 
  -- line wave
  lcc = lcs[flr(lc-1)%#lcs+1]
