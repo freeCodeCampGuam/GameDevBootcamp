@@ -233,7 +233,7 @@ function update_ship()
  end
 
  if ship.y > 127 then
-  for i=0,50 do
+  for i=0,1 do
    add(particles, smoke(
     ship.x-2 + rnd(6+2),
     ship.y-1 + rnd(6+2),
