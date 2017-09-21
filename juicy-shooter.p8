@@ -13,6 +13,9 @@ function _init()
  st_game = 1
  st_game_over = 2
 
+ cam = {x=0,y=0,dx=0,dy=0}
+ camera(0,0)
+
  change_state(st_title)
 end
 
@@ -181,8 +184,6 @@ function init_game()
    spd=rnd(3)
   })
  end
- cam = {x=0,y=0,dx=0,dy=0}
- camera(0,0)
 end
 
 function update_game()
