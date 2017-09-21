@@ -1,58 +1,234 @@
 pico-8 cartridge // http://www.pico-8.com
 version 8
 __lua__
+function _draw()
+ cls()
+
+ if demo=='text' then
+
+	 ----------------------------
+	 -- 1. simple text outline --
+	 ----------------------------
+
+	 txt = "wow!"-- our text to draw
+	 txt_col = 1 -- txt color
+	 txtx = 59   -- x,y coordinates
+	 txty = 60
+	 -- in order to draw an outline
+	 -- we just choose a color that's
+	 -- different than the text color
+	 txt_ol_col = 12
+
+	 -- and we just draw the text
+	 -- in that color but moved
+	 -- left/right/up/down once each
+	 print(txt ,txtx-1,txty, txt_ol_col) -- l
+	 print(txt ,txtx+1,txty, txt_ol_col) -- r
+	 print(txt ,txtx,txty-1, txt_ol_col) -- u
+	 print(txt ,txtx,txty+1, txt_ol_col) -- d
+
+	 -- then we just draw the txt
+	 -- in its main color
+	 print(txt ,txtx,txty, txt_col)
+
+	 -- but that only lets us draw
+	 -- outlined text.. 
+	 -- how about sprites?
+	 -- scroll down to
+	 -- 2. sprite outlines
+
+	elseif demo=='sprite' then 
+
+	 ----------------------------
+	 -- 2. simple text outline --
+	 ----------------------------
+
+	 sp = 1
+
+
+	else
+		draw_interactive_ex()
+	end
+
+	draw_prompts()
+end
+
+function draw_outline()
+ spr(1,15,15)
+
+end
+
+function draw_prompts()
+ if demo=='text' then 
+  -- centered text explained later
+	 printc('1. text outline',64,1,7)
+	 printc('press z to change colors',64,108,7)
+ elseif demo=='sprite' then
+  printc('2. sprite outline',64,1,7)
+	 printc('press z to change outline',64,120,7)
+ end
+ rectfill(0,118,128,128,8)
+ printc('press enter to show next demo', 64,121, 2)
+ printc('press enter to show next demo', 64,120, 7)
+end
+
+function draw_interactive_ex()
+ for i=1,#offset_x do
+  dx = x + offset_x[i]
+  dy = y + offset_y[i]
+  -- we are just using sspr
+  -- to draw our sprite bigger
+  -- we could have done the
+  -- outline with spr just fine
+  -- like this: spr(1, dx, dy)
+  all_colors_to(7)
+  sspr(ispr*8,0,8,8,dx,dy,8*w,8*w)
+ end
+ all_colors_to()
+ sspr(ispr*8,0,8,8,x,y,8*w,8*w)
+ if select>0 then
+  dx = x + offset_x[select]
+  dy = y + offset_y[select]
+  all_colors_to(14)
+  sspr(ispr*8,0,8,8,dx,dy,8*w,8*w)
+  all_colors_to()
+ end
+ s = 'press z to select the next copy'
+ print(s, 64 - #s*2, 101, 7)
+ s = 'arrow keys to move the copy'
+ print(s, 64 - #s*2, 109, 7)
+end
+
+-------------------------
+-- tutorial stops here --
+-------------------------
+
+-- this is explained in part2
+function printc(s, x, y, c)
+	if(c) return print(s, x - #s*2, y, c)
+	print(s, x - #s*2, y)
+end
+
 function _init()
-	x=64
-	y=64
+ -- these are for the 
+ -- interactive demo,
+ -- go up to the _draw function
+ -- for an explanation 
+ -- on outlines
+ t = 0
+
+ ispr = 1
+	w=3
+	x=64 - 8*w/2
+	y=48 - 8*w/2
 	
 	offset_x={0,0,0,0}
 	offset_y={0,0,0,0}
 	
 	select=0
+
+ -- text demo
+	txt_col_offset = 0
+
+	-- switch demo menu item
+ demo = 'text'
+ menuitem(1,'> text outline', function()all_colors_to() demo='text'end)
+ menuitem(2,'> sprite outline', function()all_colors_to() demo='sprite'end)
+ menuitem(3,'> interactive', function()all_colors_to() demo='demo'end)
 end
 
 function _update()
+ if(demo=='text')update_text()
+ if(demo=='sprite')update_sprite()
+ if(demo=='demo')update_demo()
+end
+
+function update_text()
+ if btnp(4) then
+  txt_col_offset += 1
+ 	for c=0,15 do 
+ 		nc = (c+txt_col_offset)%16
+ 		pal(c, nc)
+ 	end
+ end
+end
+
+function update_demo()
+	t += 1
+
+	-- sprite changes
+	if t>300 and t%150==0 then
+		ispr = 2
+	elseif t%27==0 then 
+		ispr = 1
+	end
+
+ -- select next copy
  if btnp(4) then
   select=(select+1)%(#offset_x+1)
  end
+ -- add another copy
+ if btnp(5) then
+  add(offset_x, 0)
+  add(offset_y, 0)
+ end
+ -- move copy
  if select > 0 then
 	 if btnp(0) then
-	  offset_x[select] -= 1
+	  offset_x[select] -= w
 	 elseif btnp(1) then
-	  offset_x[select] += 1
+	  offset_x[select] += w
 	 end
 	 
 	 if btnp(2) then
-	  offset_y[select] -= 1
+	  offset_y[select] -= w
 	 elseif btnp(3) then
-	  offset_y[select] += 1
+	  offset_y[select] += w
 	 end
 	end
 end
 
-function _draw()
- cls()
- for i=1,#offset_x do
-  dx = x + offset_x[i]
-  dy = y + offset_y[i]
-  spr(2,dx,dy)
- end
- spr(1,x,y)
- if select>0 then
-  dx = x + offset_x[select]
-  dy = y + offset_y[select]
-  spr(3,dx,dy)
+-- trasevol_dog's
+function draw_outline(draw,c,arg)
+ local c=c or 0
+
+ all_colors_to(c)
+ 
+ camera(cam.x-1,cam.y)
+ draw(arg)
+ camera(cam.x+1,cam.y)
+ draw(arg)
+ camera(cam.x,cam.y-1)
+ draw(arg)
+ camera(cam.x,cam.y+1)
+ draw(arg)
+ 
+ camera(cam.x,cam.y)
+ all_colors_to()
+ draw(arg)
+end
+
+function all_colors_to(c)
+ if c then
+  for i=0,15 do
+   pal(i,c)
+  end
+ else
+  for i=0,15 do
+   pal(i,i)
+  end
  end
 end
+
 __gfx__
-000000000002200000077000000ee000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00000000000f200000077000000ee000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00700700000f080000070700000e0e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0007700008888800077777000eeeee00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-00077000008880000077700000eee000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0070070000ccc0000077700000eee000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0000000000c0cc000070770000e0ee00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-0000000000c000000070000000e00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000220000022000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00000000000f2000002f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00700700000f0800080f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00077000088888000888888000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+00077000008880000088800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0070070000ccc0000cccc00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000000c0cc000c00c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+0000000000c000000000c00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
