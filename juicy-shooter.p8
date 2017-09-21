@@ -76,6 +76,7 @@ function init_title()
 
  start_soon = false
 
+ init_logo()
  init_game()
 end
 
@@ -99,6 +100,8 @@ function update_title()
   lw = -cos((lxm+50)/((128+50)*2))*lww + lww
  end
  update_stars()
+ update_logo()
+ update_cam()
 end
 
 function draw_title()
@@ -110,6 +113,9 @@ function draw_title()
  end
 
  -- line wave
+
+ camera(0,0)
+
  lcci = flr(lc-1)%#lcs+1
  lcmi = flr(lc-.5)%#lcs+1
  lcc = lcs[lcci][1]
@@ -143,6 +149,8 @@ function draw_title()
   end
  end
 
+ camera(cam.x, cam.y)
+
  -- logo wave
  rr = max(sin(r)*16, sin(r)*4 + 2)
  for x=-64,128+64,32 do for y=-64,128+64,32 do 
@@ -153,6 +161,33 @@ function draw_title()
   )
  end end
  draw_start_prompt(7, lcs[(lcci-2)%#lcs+1][2])
+ draw_outline(draw_logo, 7)
+ draw_logo()
+end
+
+function init_logo()
+ logo = {x=65 - (16*8)/2, y=32, 
+          dy=0, f=32, 
+          bw=16*8, bh=4*8,
+          w=16*8, h=4*8}
+end
+
+function update_logo()
+ if t%107>105 and logo.dy < 1 then
+  logo.dy -= 10
+ end
+ logo.dy += 3
+ logo.y += logo.dy
+ logo.dy *=.9
+ if logo.y > logo.f then 
+  logo.y = logo.f
+  logo.dy = -logo.dy
+  if (logo.dy < -5) shake(rnd(2)-1, logo.dy/3 -rnd(-logo.dy/6)+logo.dy/12 )
+ end
+end
+
+function draw_logo()
+ sspr(0,4*8,16*8,4*8, logo.x,logo.y, logo.w,logo.h)
 end
 
 function draw_start_prompt(c, bgc)
