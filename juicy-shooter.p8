@@ -152,6 +152,14 @@ function draw_title()
  camera(cam.x, cam.y)
 
  -- logo wave
+ draw_subtitle()
+function draw_subtitle()
+ local function lc()
+  printc('b o o t  c a m p',64,72,0)
+ end
+ draw_outline(lc, 7)
+end
+
  rr = max(sin(r)*16, sin(r)*4 + 2)
  for x=-64,128+64,32 do for y=-64,128+64,32 do 
   spr(13,
