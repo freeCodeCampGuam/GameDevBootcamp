@@ -7,6 +7,10 @@ __lua__
 --fccg background scroll
 --by xell0s
 
+-------------------
+--- game states ---
+-------------------
+
 function _init()
  st_title = 0
  st_title_game = 0.5
@@ -44,6 +48,10 @@ function _draw()
  if (state==st_game) draw_game()
  if (state==st_game_over) draw_game_over()
 end
+
+-------------------
+------ title ------
+-------------------
 
 function init_title()
  t=0
@@ -155,6 +163,10 @@ function draw_start_prompt(c, bgc)
  dp(c)
 end
 
+-------------------
+------ game -------
+-------------------
+
 function init_game()
  ship = {
   x=64,y=94, 
@@ -221,6 +233,8 @@ function draw_game()
  draw_particles()
  
 end
+
+------ ship -------
 
 function update_ship()
  back = false
@@ -407,6 +421,8 @@ function draw_ship_lights()
  end
 end
 
+---- ship shots ----
+
 function shoot(x,y,dx,dy,dmg)
  local b = {
   x=x,
@@ -436,6 +452,8 @@ function draw_shots()
  end
 end
 
+---- particles -----
+
 function smoke(x,y,dx,dy,hp)
  local s = {
   x=x,
@@ -456,23 +474,6 @@ function smoke(x,y,dx,dy,hp)
    circfill(s.x,s.y,r,5+r)
   end
  }return s
-end
-
-function shake(x,y)
- x=x or rnd(1)-.5
- y=y or rnd(1)-.5
- cam.dx += x
- cam.dy += y
-end
-
-function update_cam()
- cam.x *= .8
- cam.y *= .8
- cam.x += cam.dx
- cam.y += cam.dy
- cam.dx *=.7
- cam.dy *=.7
- camera(cam.x,cam.y)
 end
 
 function update_stars()
@@ -497,6 +498,29 @@ function draw_particles()
   pt.draw(pt)
  end
 end
+
+------ camera ------
+
+function shake(x,y)
+ x=x or rnd(1)-.5
+ y=y or rnd(1)-.5
+ cam.dx += x
+ cam.dy += y
+end
+
+function update_cam()
+ cam.x *= .8
+ cam.y *= .8
+ cam.x += cam.dx
+ cam.y += cam.dy
+ cam.dx *=.7
+ cam.dy *=.7
+ camera(cam.x,cam.y)
+end
+
+-------------------
+----- helpers -----
+-------------------
 
 function printc(s, x,y,c)
  if(c)return print(s, x - #s*2, y-2, c)
