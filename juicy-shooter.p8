@@ -174,7 +174,7 @@ end
 
 function update_logo()
  if t%107>105 and logo.dy < 1 then
-  logo.dy -= 10
+  logo.dy -= 10 + rnd(10)-5
  end
  logo.dy += 3
  logo.y += logo.dy
