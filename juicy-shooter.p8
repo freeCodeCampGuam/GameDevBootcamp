@@ -87,10 +87,14 @@ function draw_title()
  lcc = lcs[flr(lc-1)%#lcs+1]
  lcm = lcs[flr(lc-.5)%#lcs+1]
  for i=-1,-lw+lx do
-  line(0,128*2-i,128*2-i,0,lcm)
+  xy = 128*2-i
+  line(0,xy,xy,0,lcm)
+  if(xy>=254)line(126,128,128,125,lcm)
  end
  for i=lw+lx,128*2 do
-  line(0,128*2-i,128*2-i,0,lcc)
+  xy = 128*2-i
+  line(0,xy,xy,0,lcc)
+  if(xy>=254)line(126,128,128,125,lcc)
  end
  -- for i=-lw,lw do
  --  line(0,128*2-lx-i,128*2-lx-i,0,0)
