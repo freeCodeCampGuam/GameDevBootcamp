@@ -70,7 +70,7 @@ function update_title()
   lx = (lx+li+32)%(130*(li*2)) -32
   if (lx == -32) lc += .5
   lxm = mid(0,128*2,lx)
-  lw = -cos((lxm+50)/((128+50)*2))*10 + 10
+  lw = -cos((lxm+50)/((128+50)*2))*20 + 20
  end
  update_stars()
 end
