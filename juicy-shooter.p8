@@ -48,9 +48,18 @@ function init_title()
  r=0
  lx=-32
  lw=3
+ lww=20
  li=4
  lc = 1
- lcs = {3,3,2,1,12,9,14,2}
+ lcs = {
+  {3,5,1,0},{3,5,1,0},
+  {2,1,0},
+  {1,0},
+  {12,5,1,0},
+  {9,4,2,0},
+  {14,2,1,0},
+  {2,1,0}
+ }
 
  sx = 0
 
@@ -69,8 +78,8 @@ function update_title()
  if t%400 > 200 or lx > 0 then
   lx = (lx+li+32)%(130*(li*2)) -32
   if (lx == -32) lc += .5
-  lxm = mid(0,128*2,lx)
-  lw = -cos((lxm+50)/((128+50)*2))*20 + 20
+  lxm = mid(0,256,lx)
+  lw = -cos((lxm+50)/((128+50)*2))*lww + lww
  end
  update_stars()
 end
@@ -84,22 +93,35 @@ function draw_title()
  end
 
  -- line wave
- lcc = lcs[flr(lc-1)%#lcs+1]
- lcm = lcs[flr(lc-.5)%#lcs+1]
+ lcci = flr(lc-1)%#lcs+1
+ lcmi = flr(lc-.5)%#lcs+1
+ lcc = lcs[lcci][1]
+ lcm = lcs[lcmi][1]
  for i=-1,-lw+lx do
-  xy = 128*2-i
+  xy = 256-i
   line(0,xy,xy,0,lcm)
   if(xy>=254)line(126,128,128,125,lcm)
  end
- for i=lw+lx,128*2 do
-  xy = 128*2-i
+ for i=lw+lx,256 do
+  xy = 256-i
   line(0,xy,xy,0,lcc)
   if(xy>=254)line(126,128,128,125,lcc)
  end
+ if lx-lw<256 or lx+lw>0 then
+  n = 0
+  for i=0,2,1.3-lw/lww/2 do
+   n += 1
+   xy = 256 - (cos(i/2 + lc/9)*lw + lx)
+   ci = lcmi
+   if (xy < 256 - lx) ci = lcci
+   c = lcs[ci][(n)%#lcs[ci]+1]
+   line(0,xy,xy,0,c)
+  end
+ end
  -- for i=-lw,lw do
- --  line(0,128*2-lx-i,128*2-lx-i,0,0)
+ --  line(0,256-lx-i,256-lx-i,0,0)
  -- end
- --line(0,128*2-lx,128*2-lx,0,8)
+ --line(0,256-lx,256-lx,0,8)
 
  -- logo wave
  rr = max(sin(r)*16, sin(r)*4 + 2)
