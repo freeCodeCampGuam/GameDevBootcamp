@@ -108,14 +108,21 @@ function draw_title()
   if(xy>=254)line(126,128,128,125,lcc)
  end
  if lx-lw<256 or lx+lw>0 then
-  n = 0
+  n = 1
   for i=0,2,1.3-lw/lww/2 do
    n += 1
+   gw = 1
+   if (n%3==0) gw=2
+   if (n==flr(lc)%(n+1)) gw=8
    xy = 256 - (cos(i/2 + lc/9)*lw + lx)
    ci = lcmi
    if (xy < 256 - lx) ci = lcci
-   c = lcs[ci][(n)%#lcs[ci]+1]
-   line(0,xy,xy,0,c)
+   c = lcs[ci][(n-1)%#lcs[ci]+1]
+   for gwi=1,gw do
+    off = gwi - ((gw-1)/2+1)
+    xyo = xy + off
+    line(0,xyo,xyo,0,c)
+   end
   end
  end
  -- for i=-lw,lw do
