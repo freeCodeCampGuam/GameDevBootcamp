@@ -180,26 +180,35 @@ end
 function init_logo()
  logo = {x=65 - (16*8)/2, y=32, 
           dy=0, f=32, 
-          bw=16*8, bh=4*8,
-          w=16*8, h=4*8}
+          bw=16*8-2, bh=4*8,
+          w=16*8, h=4*8,
+          g=3}
 end
 
 function update_logo()
- if t%107>105 and logo.dy < 1 then
+ if t%307>305 and logo.dy < 1 then
   logo.dy -= 10 + rnd(10)-5
+  logo.h *= 1.1
+  logo.w *= .9
  end
- logo.dy += 3
+ logo.dy += logo.g
  logo.y += logo.dy
  logo.dy *=.9
+ logo.h = lerp(logo.h, logo.bh, .2)
+ logo.w = lerp(logo.w, logo.bw, .2)
  if logo.y > logo.f then 
   logo.y = logo.f
   logo.dy = -logo.dy
-  if (logo.dy < -5) shake(rnd(2)-1, logo.dy/3 -rnd(-logo.dy/6)+logo.dy/12 )
+  if logo.dy < -5 then 
+   shake(rnd(2)-1, logo.dy/3 -rnd(-logo.dy/6)+logo.dy/12 )
+   logo.h = lerp(logo.h, logo.bh*.4, .5)
+   logo.w = lerp(logo.w, logo.bw*1.3, .5)
+  end
  end
 end
 
 function draw_logo()
- sspr(0,4*8,16*8,4*8, logo.x,logo.y, logo.w,logo.h)
+ sspr(0,4*8,16*8,4*8, 64 - logo.w/2 + logo.x,logo.y, logo.w,logo.h)
 end
 
 function draw_start_prompt(c, bgc)
@@ -568,6 +577,10 @@ end
 -------------------
 ----- helpers -----
 -------------------
+
+function lerp(a,b,p)
+ return a+(b-a)*p
+end
 
 function printc(s, x,y,c)
  if(c)return print(s, x - #s*2, y-2, c)
