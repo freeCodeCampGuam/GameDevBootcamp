@@ -151,8 +151,14 @@ function draw_title()
 
  camera(cam.x, cam.y)
 
- -- logo wave
+ draw_fccg_wave()
+
  draw_subtitle()
+ draw_start_prompt(7, lcs[(lcci-2)%#lcs+1][2])
+ draw_outline(draw_logo, 7)
+ draw_logo()
+end
+
 function draw_subtitle()
  local function lc()
   printc('b o o t  c a m p',64,72,0)
@@ -160,6 +166,7 @@ function draw_subtitle()
  draw_outline(lc, 7)
 end
 
+function draw_fccg_wave()
  rr = max(sin(r)*16, sin(r)*4 + 2)
  for x=-64,128+64,32 do for y=-64,128+64,32 do 
   spr(13,
@@ -168,9 +175,6 @@ end
    3,4
   )
  end end
- draw_start_prompt(7, lcs[(lcci-2)%#lcs+1][2])
- draw_outline(draw_logo, 7)
- draw_logo()
 end
 
 function init_logo()
