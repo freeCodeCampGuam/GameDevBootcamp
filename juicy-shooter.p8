@@ -141,6 +141,11 @@ function draw_title()
    3,4
   )
  end end
+ draw_start_prompt()
+end
+
+function draw_start_prompt()
+ printc("press x to start!", 64, 110, 7)
 end
 
 function init_game()
@@ -484,6 +489,11 @@ function draw_particles()
  for pt in all(particles) do
   pt.draw(pt)
  end
+end
+
+function printc(s, x,y,c)
+ if(c)return print(s, x - #s*2, y-2, c)
+ print(s, x - #s*2, y-2)
 end
 __gfx__
 00000000008080000080800000808000008080000082000000820000008200000082000000000000000000000000000000000000000000000000000000000000
