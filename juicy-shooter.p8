@@ -63,11 +63,17 @@ function init_title()
 
  sx = 0
 
+ start_soon = false
+
  init_game()
 end
 
 function update_title()
- if (btn(5)) change_state(st_title_game)
+ if (btn(5)) start_soon = true
+ if lx-lw>256 or lx+lw<0 and 
+    start_soon then
+  change_state(st_title_game)
+ end
  t+=0.8
  tr+=0.01
  r+= 0.001
@@ -125,10 +131,6 @@ function draw_title()
    end
   end
  end
- -- for i=-lw,lw do
- --  line(0,256-lx-i,256-lx-i,0,0)
- -- end
- --line(0,256-lx,256-lx,0,8)
 
  -- logo wave
  rr = max(sin(r)*16, sin(r)*4 + 2)
