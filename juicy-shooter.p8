@@ -291,7 +291,8 @@ function update_ship()
   back = true
  end
  
-  ship.sp += flr(t/2)%4 + 1
+  --ship.sp += flr(t/2)%4 + 1
+ sp_to_draw = ship.sp + flr(t/2)%4 + 1
  
  ship.x += ship.dx
  ship.y += ship.dy
@@ -311,7 +312,7 @@ function update_ship()
    lr = ship.guns[ship.gun]
    if ship.fp then
     gx = ship.ts[3][lr]
-   elseif ship.sp > 4 then
+   elseif sp_to_draw > 4 then
     gx = ship.ts[2][lr]
    else
     gx = ship.ts[1][lr]
@@ -351,10 +352,11 @@ function update_ship()
 end
 
 function draw_ship()
- spr(ship.sp,ship.x,ship.y,
+ shsp = flr(t/2)%4 + 1 + ship.sp
+ spr(shsp ,ship.x,ship.y,
      1,1,ship.fp)
  s=ship.ts[1]
- if ship.sp > 4 then
+ if ship.sp + shsp> 4 then
   s=ship.ts[2]
   if ship.fp then
    s=ship.ts[3]
