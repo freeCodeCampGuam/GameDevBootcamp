@@ -144,11 +144,15 @@ function draw_title()
    3,4
   )
  end end
- draw_start_prompt()
+ draw_start_prompt(7, lcs[(lcci-2)%#lcs+1][2])
 end
 
-function draw_start_prompt()
- printc("press x to start!", 64, 110, 7)
+function draw_start_prompt(c, bgc)
+ local function dp(c)
+  printc("press x to start!", 63, 110, c)
+ end
+ draw_outline(dp, bgc)
+ dp(c)
 end
 
 function init_game()
@@ -497,6 +501,38 @@ end
 function printc(s, x,y,c)
  if(c)return print(s, x - #s*2, y-2, c)
  print(s, x - #s*2, y-2)
+end
+
+-- trasevol_dog
+function draw_outline(draw,c,arg)
+ local c=c or 0
+
+ all_colors_to(c)
+ 
+ camera(cam.x-1,cam.y)
+ draw(arg)
+ camera(cam.x+1,cam.y)
+ draw(arg)
+ camera(cam.x,cam.y-1)
+ draw(arg)
+ camera(cam.x,cam.y+1)
+ draw(arg)
+ 
+ camera(cam.x,cam.y)
+ all_colors_to()
+ draw(arg)
+end
+
+function all_colors_to(c)
+ if c then
+  for i=0,15 do
+   pal(i,c)
+  end
+ else
+  for i=0,15 do
+   pal(i,i)
+  end
+ end
 end
 __gfx__
 00000000008080000080800000808000008080000082000000820000008200000082000000000000000000000000000000000000000000000000000000000000
