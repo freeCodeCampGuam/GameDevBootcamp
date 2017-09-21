@@ -70,7 +70,7 @@ end
 
 function update_title()
  if (btn(5)) start_soon = true
- if lx-lw>256 or lx+lw<0 and 
+ if (lx-lw>256 or lx+lw<0) and 
     start_soon then
   change_state(st_title_game)
  end
