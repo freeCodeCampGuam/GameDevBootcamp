@@ -183,13 +183,38 @@ function printc(s, x, y, c)
 end
 
 function _init()
- -- these are for the 
- -- interactive demo,
  -- go up to the _draw function
  -- for an explanation 
  -- on outlines
+
+ -- title
  t = 0
 
+	-- advanced
+	camx=0
+	camy=0
+
+	while not btnp(4) do
+  draw_title()
+	end
+
+	t = 0
+
+ -- text demo
+	txt_col_offset = 0
+
+	-- sprite demo
+	c = 7
+
+	-- switch demo menu item
+ demo = 'text'
+ menuitem(1,'> text outline', function()all_colors_to() demo='text'end)
+ menuitem(2,'> sprite outline', function()all_colors_to() demo='sprite'end)
+ menuitem(3,'> interactive', function()init_interactive() end)
+end
+
+function init_interactive()
+ t=0
  ispr = 1
 	w=3
 	x=64 - 8*w/2
@@ -201,22 +226,8 @@ function _init()
 	offset_y={0,0,0,0}
 	
 	select=0
-
- -- text demo
-	txt_col_offset = 0
-
-	-- sprite demo
-	c = 7
-
-	-- advanced
-	camx=0
-	camy=0
-
-	-- switch demo menu item
- demo = 'text'
- menuitem(1,'> text outline', function()all_colors_to() demo='text'end)
- menuitem(2,'> sprite outline', function()all_colors_to() demo='sprite'end)
- menuitem(3,'> interactive', function()all_colors_to() demo='demo'end)
+	all_colors_to() 
+	demo='demo'
 end
 
 function _update()
@@ -280,6 +291,41 @@ function update_demo()
 	  moved = true
 	 end
 	end
+end
+
+function draw_title()
+ cls()
+	if t==0 then 
+		m = {}
+		s = "tips n' tricks"
+		o = '   outlines'
+		c = 0
+		w = 120/(#s*4)
+		print(s,0,0,7)
+		print(o,0,8)
+		for x=0,#s*4 do for y=0,5+3+5 do 
+			if(pget(x,y)!=0)add(m, {x=x,y=y})
+		end end
+	end
+	t += .005
+	pxy = {x=7 , y=30 + cos(t)*2}
+
+	function draw_m(xy)
+		px=xy.x
+		py=xy.y
+		for p in all(m) do 
+			rectfill(p.x*w+w/2 + px, p.y*w+w/2 + py, 
+											 p.x*w-w/2 + px, p.y*w-w/2 + py,c)
+			pset(p.x*w+w/2 + px, p.y*w+w/2 + py, p.x*w-w/2)
+		end
+	end
+
+	draw_outline(draw_m, 7, pxy)
+	printc('press escape and check out',64,100)
+	printc('the tuorial in _draw',64,107)
+	printc('press z to see what it makes!',64,116, 9)
+
+	flip()
 end
 
 function draw_prompts()
