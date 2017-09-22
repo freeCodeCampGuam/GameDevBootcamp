@@ -4,8 +4,6 @@ __lua__
 --simple screenshake
 --by irdumb
 
--- '-'*30 + '\n {:-^30}\n '.format(' simple ') + '-'*30
-
  ------------------------------
  ----- simple screenshake -----
  ------------------------------
