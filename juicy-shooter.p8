@@ -330,17 +330,17 @@ function init_game()
   dx=0,dy=0,
   sp=1,fp=false,
   thrust=0,
-  mxspd=5,slw=0,
+  mxspd=7,slw=0,
   ts={{0,3,6},
       {1,2,3},
       {4,5,6}},
   dshrdy={},
   acc=.8,
   lastd=0,dashcd=.85,
-  dashspd=5,
+  dashspd=7,
   bspd=-7, 
   gun=1,guns={1,3},
-  frate=.4,bcd=0,
+  frate=1.1,bcd=0,
   kickbk=3,
   flash={}
  }
@@ -434,11 +434,12 @@ function spawn_enemy()
     local offx = rnd(128-(amp*2)) + amp
     local dx=rnd(2)-1
     local spc=rnd(8)+6
+    local spd=rnd(1.25)+.5
     for i=0,n do
      local f={
       type='f',
       spr=23,
-      hp=5, spd=.5, dmg=1,
+      hp=5, spd=spd, dmg=1,
       spc=spc,
       y=-8 -i*spc,
       w=5,h=6,
@@ -446,7 +447,7 @@ function spawn_enemy()
       offx=offx,
       freq=freq,
       amp=amp,
-      dy=.5,
+      dy=spd,
       t=i,
       dx=dx,
       hurting=0,
@@ -479,6 +480,8 @@ function spawn_enemy()
        s.dy = -(s.dy-(s.dy/dmg))
        if s.hp <= 0 then 
         s.explode(s)
+        local mag = (s.w*1.5+dmg)/2
+        shake(rnd(mag*2)-mag,rnd(mag*2)-mag)
         del(enemies, s)
        end
       end,
@@ -522,10 +525,10 @@ function spawn_enemy()
   local e = enemies[#enemies]
   e.spr = 16
   e.hp = 25
-  e.dy /= 2
-  e.dx *= 7
-  e.amp /=10
-  e.freq /=10
+  e.dy /= 4
+  e.dx *= 5
+  e.amp *=1.5
+  e.freq *=2
   e.w=8
   e.h=7
   e.draw=function(s)
