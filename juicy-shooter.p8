@@ -71,6 +71,7 @@ function init_title()
   {14,2,1,0},
   {2,1,0}
  }
+ start_logo = false
 
  sx = 0
 
@@ -82,25 +83,28 @@ end
 
 function update_title()
  if (btn(5)) start_soon = true
+ if (btn(4)) start_logo = true
  if (lx-lw>256 or lx+lw<0) and 
     start_soon then
   change_state(st_title_game)
  end
  t+=0.8
- tr+=0.01
- r+= 0.001
+ if start_logo then
+  tr+=0.01
+  r+= 0.001
 
- sx += .25
- sx %= 128
+  sx += .25
+  sx %= 128
 
- if t%400 > 200 or lx > 0 then
-  lx = (lx+li+32)%(130*(li*2)) -32
-  if (lx == -32) lc += .5
-  lxm = mid(0,256,lx)
-  lw = -cos((lxm+50)/((128+50)*2))*lww + lww
+  if t%400 > 200 or lx > 0 then
+   lx = (lx+li+32)%(130*(li*2)) -32
+   if (lx == -32) lc += .5
+   lxm = mid(0,256,lx)
+   lw = -cos((lxm+50)/((128+50)*2))*lww + lww
+  end
+  update_stars()
+  update_logo()
  end
- update_stars()
- update_logo()
  update_cam()
 end
 
@@ -161,7 +165,7 @@ end
 
 function draw_subtitle()
  local function lc()
-  printc('b o o t  c a m p',64,72,0)
+  printc('b o o t  c a m p',64,logo.sty,0)
  end
  draw_outline(lc, 7)
 end
@@ -178,11 +182,16 @@ function draw_fccg_wave()
 end
 
 function init_logo()
- logo = {x=65 - (16*8)/2, y=32, 
+ logo = {x=65 - (16*8)/2, y=-46, 
           dy=0, f=32, 
           bw=16*8-2, bh=4*8,
           w=16*8, h=4*8,
-          g=3}
+          g=3,
+          sto=40}
+ -- subtitle
+ logo.sty = logo.y+logo.sto
+ -- start prompt
+ logo.spy = 110+(logo.f-logo.y)/3
 end
 
 function update_logo()
@@ -205,6 +214,8 @@ function update_logo()
    logo.w = lerp(logo.w, logo.bw*1.3, .5)
   end
  end
+ logo.sty = max(logo.sty, logo.y+logo.sto)
+ logo.spy = min(logo.spy, 110+(logo.f-logo.y)/3)
 end
 
 function draw_logo()
@@ -213,7 +224,7 @@ end
 
 function draw_start_prompt(c, bgc)
  local function dp(c)
-  printc("press x to start!", 63, 110, c)
+  printc("press x to start!", 65, logo.spy, c)
  end
  draw_outline(dp, bgc)
  dp(c)
