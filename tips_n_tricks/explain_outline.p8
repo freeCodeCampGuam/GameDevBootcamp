@@ -67,9 +67,9 @@ function draw_prompts()
   printc('2. sprite outline',64,1,7)
 	 printc('press z to change outline',64,120,7)
  end
- rectfill(0,118,128,128,3)
- printc('press enter to show next demo', 64,121, 1)
- printc('press enter to show next demo', 64,120, 9)
+ rectfill(0,118,128,128,8)
+ printc('press enter to show next demo', 64,121, 2)
+ printc('press enter to show next demo', 64,120, 7)
 end
 
 function draw_interactive_ex()
