@@ -115,86 +115,53 @@ function _draw()
 	 -- looking configuration?
 
 	 ----------------------------
-	 -- 2. simple text outline --
+	 --------- advanced ---------
 	 ----------------------------
 
+	 --* down below this are some
+	 --  convenience functions that
+	 --  trasevol_dog uses in a lot
+	 --  of his games. see if you
+	 --  can take apart what makes
+	 --  his work.
 
 	else
 		draw_interactive_ex()
 	end
-
 	draw_prompts()
 end
 
-function draw_outline()
- spr(1,15,15)
 
+-- trasevol_dog's functions
+function all_colors_to(c)
+ if c then
+  for i=0,15 do
+   pal(i,c)
+  end
+ else
+  for i=0,15 do
+   pal(i,i)
+  end
+ end
 end
 
-function draw_prompts()
- if demo=='text' then 
-  -- centered text explained later
-	 printc('1. text outline',64,1,7)
-	 printc('press z to change colors',64,108,7)
- elseif demo=='sprite' then
-  printc('2. sprite outline',64,1,7)
-	 printc('press z to change outline',64,120,7)
- end
- rectfill(0,118,128,128,8)
- printc('press enter to show next demo', 64,121, 2)
- printc('press enter to show next demo', 64,120, 7)
-end
+function draw_outline(draw,c,arg)
+ local c=c or 0
 
-function draw_interactive_ex()
- for i=1,#offset_x do
-  dx = x + offset_x[i]
-  dy = y + offset_y[i]
-  -- we are just using sspr
-  -- to draw our sprite bigger
-  -- we could have done the
-  -- outline with spr just fine
-  -- like this: spr(1, dx, dy)
-  all_colors_to(7)
-	 rectfill(dx+w/2+30+w*4-1,dy+w/2*8+w/2-1,
-							  		dx-w/2+30+w*4+1,dy+w/2*8-w/2+1)
-  sspr(ispr*8,0,8,8,dx,dy,8*w,8*w)
- end
- all_colors_to()
- rectfill(x+w/2+30+w*4-1,y+w/2*8+w/2-1,
- 									x-w/2+30+w*4+1,y+w/2*8-w/2+1,8)
- sspr(ispr*8,0,8,8,x,y,8*w,8*w)
- if select>0 then
-  dx = x + offset_x[select]
-  dy = y + offset_y[select]
-  all_colors_to(14)
-  rectfill(dx+w/2+30+w*4-1,dy+w/2*8+w/2-1,
-								  	dx-w/2+30+w*4+1,dy+w/2*8-w/2+1)
-  sspr(ispr*8,0,8,8,dx,dy,8*w,8*w)
-  all_colors_to()
- end
-
- cx = 7
- if select==0 then
-	 cs = 14
-	 co = 7
-	else 
-	 cs = 7
-	 co = 14
-	end
-	if moved and cycled then 
-  cs = 15
-  co = 15
-  cx = 15
-	end
- print('z: next copy', 1, 95, cs)
- print('x: add copy', 1,102,cx)
- print('arrows: move copy', 1, 109, co)
+ all_colors_to(c)
  
- s = 'selected'
- print(s, 128-#s*4,95,7)
- s = select..'/'..#offset_x
- print(s, 128-#s*4,102,7)
- if(select > 0)print(select, 128-#s*4,102,14)
+ camera(camx-1,camy)
+ draw(arg)
+ camera(camx+1,camy)
+ draw(arg)
+ camera(camx,camy-1)
+ draw(arg)
+ camera(camx,camy+1)
+ draw(arg)
+ 
+ camera(camx,camy)
+ all_colors_to()
+ draw(arg)
 end
 
 -------------------------
@@ -232,6 +199,10 @@ function _init()
 
 	-- sprite demo
 	c = 7
+
+	-- advanced
+	camx=0
+	camy=0
 
 	-- switch demo menu item
  demo = 'text'
@@ -303,38 +274,72 @@ function update_demo()
 	end
 end
 
--- trasevol_dog's
-function draw_outline(draw,c,arg)
- local c=c or 0
-
- all_colors_to(c)
- 
- camera(cam.x-1,cam.y)
- draw(arg)
- camera(cam.x+1,cam.y)
- draw(arg)
- camera(cam.x,cam.y-1)
- draw(arg)
- camera(cam.x,cam.y+1)
- draw(arg)
- 
- camera(cam.x,cam.y)
- all_colors_to()
- draw(arg)
-end
-
-function all_colors_to(c)
- if c then
-  for i=0,15 do
-   pal(i,c)
-  end
- else
-  for i=0,15 do
-   pal(i,i)
-  end
+function draw_prompts()
+ if demo=='text' then 
+  -- centered text explained later
+	 printc('1. text outline',64,1,7)
+	 printc('press z to change colors',64,108,7)
+ elseif demo=='sprite' then
+  printc('2. sprite outline',64,1,7)
+	 printc('press z to change outline',64,108,7)
  end
+ rectfill(0,118,128,128,8)
+ printc('press enter to show next demo', 64,121, 2)
+ printc('press enter to show next demo', 64,120, 7)
 end
 
+function draw_interactive_ex()
+ for i=1,#offset_x do
+  dx = x + offset_x[i]
+  dy = y + offset_y[i]
+  -- we are just using sspr
+  -- to draw our sprite bigger
+  -- we could have done the
+  -- outline with spr just fine
+  -- like this: spr(1, dx, dy)
+  all_colors_to(7)
+	 rectfill(dx+w/2-30+w*4-1,dy+w/2*8+w/2-1,
+							  		dx-w/2-30+w*4+1,dy+w/2*8-w/2+1)
+  sspr(ispr*8,0,8,8,dx,dy,8*w,8*w)
+ end
+ all_colors_to()
+ rectfill(x+w/2-30+w*4-1,y+w/2*8+w/2-1,
+ 									x-w/2-30+w*4+1,y+w/2*8-w/2+1,8)
+ sspr(ispr*8,0,8,8,x,y,8*w,8*w)
+ if select>0 then
+  dx = x + offset_x[select]
+  dy = y + offset_y[select]
+  all_colors_to(14)
+  rectfill(dx+w/2-30+w*4-1,dy+w/2*8+w/2-1,
+								  	dx-w/2-30+w*4+1,dy+w/2*8-w/2+1)
+  sspr(ispr*8,0,8,8,dx,dy,8*w,8*w)
+  all_colors_to()
+ end
+
+ cx = 7
+ if select==0 then
+	 cs = 14
+	 co = 7
+	else 
+	 cs = 7
+	 co = 14
+	end
+	if moved and cycled then 
+  cs = 15
+  co = 15
+  cx = 15
+	end
+	printc('3. play around!', 64, 1, 7)
+ print('z: select copy', 1, 95, cs)
+ print('x: add copy', 1,102,cx)
+ print('arrows: move copy', 1, 109, co)
+ 
+ s = 'selected'
+ print(s, 128-#s*4,95,7)
+ s = select..'/'..#offset_x
+ print(s, 128-#s*4,102,7)
+ if(select > 0)print(select, 128-#s*4,102,14)
+end
 __gfx__
 00000000000220000022000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000f2000002f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
