@@ -1,7 +1,7 @@
 # Tips 'n Tricks Week 1
-1. [Sprite / Text Outlines](#1-drawing-outlines) (Tied!)
+1. Sprite / Text Outlines (Tied!)
 2. ~~Centered Waving Text~~
-3. [Simple Screenshake](#2-simple-screenshake) (Tied!)
+3. Simple Screenshake (Tied!)
 
 
 ## 1. Drawing Outlines
