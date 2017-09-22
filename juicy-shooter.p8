@@ -502,8 +502,8 @@ function spawn_enemy()
         sm.hp -= rnd(1.5)
         sm.draw=function(s)
          r = (s.hp*2)/s.hpx
-         if s.hp >= s.hpx-1 then
-          circfill(s.x,s.y,r,0)
+         if s.hp >= s.hpx-5 then
+          circfill(s.x,s.y,r*4,rnd(1)>.6 and 0 or 15)
          else
           circfill(s.x,s.y,r,8+r)
          end
