@@ -400,10 +400,24 @@ function draw_game()
 
  draw_ship()
 
- draw_shots()
+ -- draw half the bullets
+ for i=1, #bullets, 2 do 
+  draw_shot(bullets[i])
+ end
  
  draw_ship_muzzle_flash()
  draw_ship_lights()
+
+ -- enemies
+
+ for e in all(enemies) do 
+  e.draw(e)
+ end
+
+ -- draw the other half
+ for i=2, #bullets, 2 do 
+  draw_shot(bullets[i])
+ end
  
  draw_particles()
  
@@ -619,12 +633,10 @@ function update_shots()
  end
 end
 
-function draw_shots()
- for b in all(bullets) do
-  circ(b.x,b.y,3,15)
-  circ(b.x,b.y+3,1,15)
-  circfill(b.x,b.y,2,7)
- end
+function draw_shot(b)
+ circ(b.x,b.y,    b.w/2,15)
+ circ(b.x,b.y+3,  b.w/2 - 2,15)
+ circfill(b.x,b.y,b.w/2 - 1,7)
 end
 
 ---- particles -----
