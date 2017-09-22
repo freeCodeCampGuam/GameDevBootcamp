@@ -85,10 +85,6 @@ end
 function update_title()
  if (btn(5)) start_soon = true
  if (btn(4)) start_logo = true
- if (lx-lw>256 or lx+lw<0) and 
-    start_soon then
-  change_state(st_title_game)
- end
  t+=0.8
  if start_logo then
   tr+=0.01
@@ -106,6 +102,16 @@ function update_title()
   update_stars()
   update_logo()
  end
+
+ lcci = flr(lc-1)%#lcs+1
+ lcmi = flr(lc-.5)%#lcs+1
+ lcc = lcs[lcci][1]
+ lcm = lcs[lcmi][1]
+
+ if (lx-lw>256 or lx+lw<0) and 
+    start_soon then
+  change_state(st_title_game)
+ end
  update_cam()
 end
 
@@ -121,10 +127,6 @@ function draw_title()
 
  camera(0,0)
 
- lcci = flr(lc-1)%#lcs+1
- lcmi = flr(lc-.5)%#lcs+1
- lcc = lcs[lcci][1]
- lcm = lcs[lcmi][1]
  for i=-1,-lw+lx do
   xy = 256-i
   line(0,xy,xy,0,lcm)
