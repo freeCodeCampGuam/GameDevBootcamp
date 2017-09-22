@@ -243,13 +243,40 @@ function init_title_game()
  init_game()
  t = old_t
  wave_c = 7
+ boxes = {{ur=-rnd(5),dr=rnd(128)+260,spd=rnd(12)+7}}
+ lb =     {ur=128+rnd(5),dr=rnd(128)+260,spd=rnd(12)+7}
+ walk = boxes[1].ur
+ while walk < lb.ur do 
+  walk += rnd(8) + 3
+  add(boxes,{ur=walk,dr=rnd(128)+260,spd=rnd(12)+7})
+ end
+ add(boxes,lb)
+
+ for i=1,#boxes do
+  b = boxes[i]
+  pb = i>1       and boxes[i-1] or boxes[i+1]
+  nb = i<#boxes and boxes[i+1] or boxes[i-1]
+  dtp = b.ur - pb.ur
+  dtn = nb.ur - b.ur
+  b.hw = max(dtp/2, dtn/2)
+ end
+
+ if (lx>258) lc += .5
+ bgc = lcs[flr(lc-1)%#lcs+1][1]
 end
 
 function update_title_game()
  t+=0.8
  wave_c -= .07
 
+ if #boxes == 0 then 
+  change_state(st_game)
+  t=0
+ end
+
  if wave_c < 6 then
+ end
+
   logo.dx -= .3
   logo.dy -= .3
   logo.x += logo.dx
@@ -257,17 +284,31 @@ function update_title_game()
   logo.stx += logo.dx * 2
   logo.sty = logo.y+logo.sto
   logo.spy += 2
+
+   -- boxes
+ for b in all(boxes) do
+  b.dr -= b.spd
+  if b.dr < -b.hw*1.5 then 
+   del(boxes, b)
+  end
  end
-
-
- lcci = flr(lc-1)%#lcs+1
 
  update_stars()
 end
 
 function draw_title_game()
  draw_game()
- cls(3) -- put cube thing after
+ -- had to use the reverse rectfill bug
+ for box in all(boxes) do 
+  cw = box.hw*1.42
+  for i=-cw,box.dr,1 do
+   rectfill(
+    (box.ur + i - 64) + box.hw, ((i - box.ur) + 64) + box.hw,
+    (box.ur + i - 64) - box.hw, ((i - box.ur) + 64) - box.hw,
+    bgc)
+  end
+ end
+
  if wave_c > 6 then
   all_colors_to(wave_c)
   draw_fccg_wave()
@@ -276,8 +317,7 @@ function draw_title_game()
 
  draw_subtitle()
  draw_start_prompt(7, lcs[(lcci-2)%#lcs+1][2])
- draw_logo()
-
+ draw_outline(draw_logo, 7)
 end
 
 -------------------
