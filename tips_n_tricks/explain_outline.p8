@@ -1,6 +1,14 @@
 pico-8 cartridge // http://www.pico-8.com
 version 8
 __lua__
+-- outline tutorial
+-- by irdumb
+
+-- the tutorial is in the
+-- _draw function!
+--    |
+--    V
+
 function _draw()
  cls()
 
