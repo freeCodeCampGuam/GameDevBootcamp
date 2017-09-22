@@ -357,10 +357,24 @@ function init_game()
    spd=rnd(3)
   })
  end
+
+ enemy_spawn_cd = 150
+ enemy_spawn_t = 0
+
+ enemies = {}
+ enemy_bullets = {}
 end
 
 function update_game()
  t += 1
+
+ enemy_spawn_t += 1
+ if enemy_spawn_t > enemy_spawn_cd then 
+  enemy_spawn_t = 0
+  enemy_spawn_cd *= .995
+  spawn_enemy()
+ end
+
 
  update_ship()
  update_shots()
@@ -369,6 +383,10 @@ function update_game()
   if pt.hp <= 0 then
    del(particles, pt)
   end
+ end
+
+ for e in all(enemies) do 
+  e.update(e)
  end
  
  update_stars()
