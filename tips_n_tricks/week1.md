@@ -6,4 +6,9 @@
 
 ## 1. Drawing Outlines
 
+Check out the tutorial in the `_draw` function.  
+![](explain_outline.p8.png)  
+- [Using Pal](http://pico-8.wikia.com/wiki/Pal)
+
+
 ## 2. Simple Screenshake
