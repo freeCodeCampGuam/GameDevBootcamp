@@ -10,26 +10,27 @@ function _draw()
 	 -- 1. simple text outline --
 	 ----------------------------
 
-	 txt = "wow!"-- our text to draw
+	 txt = "wow!"-- our text
 	 txt_col = 1 -- txt color
-	 txtx = 58   -- x,y coordinates
-	 txty = 60
-	 -- in order to draw an outline
-	 -- we just choose a color that's
-	 -- different than the text color
-	 txt_ol_col = 12
+	 tx = 58   -- x,y coordinates
+	 ty = 60
+	 --in order to draw an outline
+	 --we just choose a color that
+	 --is different than 
+	 --the text color
+	 ol_col = 12
 
-	 -- and we just draw the text
-	 -- in that color but moved
-	 -- left/right/up/down once each
-	 print(txt ,txtx-1,txty, txt_ol_col) -- l
-	 print(txt ,txtx+1,txty, txt_ol_col) -- r
-	 print(txt ,txtx,txty-1, txt_ol_col) -- u
-	 print(txt ,txtx,txty+1, txt_ol_col) -- d
+	 --and we just draw the text
+	 --in that color but moved
+	 --left/right/up/down once each
+	 print(txt,tx-1, ty, ol_col)--l
+	 print(txt,tx+1, ty, ol_col)--r
+	 print(txt,tx, ty-1, ol_col)--u
+	 print(txt,tx, ty+1, ol_col)--d
 
 	 -- then we just draw the txt
 	 -- in its main color
-	 print(txt ,txtx,txty, txt_col)
+	 print(txt ,tx,ty, txt_col)
 
 	 -- but that only lets us draw
 	 -- outlined text.. 
