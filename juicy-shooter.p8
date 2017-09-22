@@ -486,8 +486,8 @@ function spawn_enemy()
       draw=function(s)
 
        spr(s.spr+s.nxt, 
-           s.x+s.w/2 + (s.flp and 0 or 3), 
-           s.y+s.y/2, 1,1, s.flp)
+           s.x-s.w + (s.flp and 0 or 3), 
+           s.y-s.h/2, 1,1, s.flp)
       end,
 
       -- explosion
@@ -516,7 +516,26 @@ function spawn_enemy()
    end
   }
  }
- kinds.f.init()
+ etype = rnd(100) > 80
+ if etype then
+  kinds.f.init(1)
+  local e = enemies[#enemies]
+  e.spr = 16
+  e.hp = 25
+  e.dy /= 2
+  e.dx *= 7
+  e.amp /=10
+  e.freq /=10
+  e.w=8
+  e.h=7
+  e.draw=function(s)
+   spr(s.spr+s.nxt, 
+       s.x-s.w/2, 
+       s.y-s.h/2, 1,1, s.flp)
+  end
+ else
+  kinds.f.init()
+ end
 end
 
 ------ ship -------
