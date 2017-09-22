@@ -307,6 +307,7 @@ function draw_title()
 			if(pget(x,y)!=0)add(m, {x=x,y=y})
 		end end
 	end
+	cls(13)
 	t += .005
 	pxy = {x=7 , y=30 + cos(t)*2}
 
