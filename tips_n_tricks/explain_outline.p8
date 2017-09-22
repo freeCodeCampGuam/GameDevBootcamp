@@ -7,7 +7,7 @@ __lua__
 -- the tutorial is in the
 -- _draw function!
 --    |
---    V
+--    v
 
 function _draw()
  cls()
@@ -176,7 +176,7 @@ end
 -- tutorial stops here --
 -------------------------
 
--- this is explained in part2
+-- this is explained later
 function printc(s, x, y, c)
 	if(c) return print(s, x - #s*2, y, c)
 	print(s, x - #s*2, y)
