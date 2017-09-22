@@ -31,7 +31,8 @@ end
 function init()
  if (state==st_title) init_title()
  if (state==st_title_game) init_title_game()
- if (state==st_game) init_game()
+ -- handled in transition
+ -- if (state==st_game) init_game()
  if (state==st_game_over) init_game_over()
 end
 
@@ -165,7 +166,7 @@ end
 
 function draw_subtitle()
  local function lc()
-  printc('b o o t  c a m p',64,logo.sty,0)
+  printc('b o o t  c a m p',logo.stx,logo.sty,0)
  end
  draw_outline(lc, 7)
 end
@@ -183,12 +184,13 @@ end
 
 function init_logo()
  logo = {x=65 - (16*8)/2, y=-46, 
-          dy=0, f=32, 
+          dy=0, dx=0, f=32, 
           bw=16*8-2, bh=4*8,
           w=16*8, h=4*8,
           g=3,
           sto=40}
  -- subtitle
+ logo.stx = 64
  logo.sty = logo.y+logo.sto
  -- start prompt
  logo.spy = 110+(logo.f-logo.y)/3
@@ -228,6 +230,52 @@ function draw_start_prompt(c, bgc)
  end
  draw_outline(dp, bgc)
  dp(c)
+end
+
+--------------------
+---- transition ----
+--------------------
+
+function init_title_game()
+ old_t = t
+ init_game()
+ t = old_t
+ wave_c = 7
+end
+
+function update_title_game()
+ t+=0.8
+ wave_c -= .07
+
+ if wave_c < 6 then
+  logo.dx -= .3
+  logo.dy -= .3
+  logo.x += logo.dx
+  logo.y += logo.dy
+  logo.stx += logo.dx * 2
+  logo.sty = logo.y+logo.sto
+  logo.spy += 2
+ end
+
+
+ lcci = flr(lc-1)%#lcs+1
+
+ update_stars()
+end
+
+function draw_title_game()
+ draw_game()
+ cls(3) -- put cube thing after
+ if wave_c > 6 then
+  all_colors_to(wave_c)
+  draw_fccg_wave()
+  all_colors_to()
+ end
+
+ draw_subtitle()
+ draw_start_prompt(7, lcs[(lcci-2)%#lcs+1][2])
+ draw_logo()
+
 end
 
 -------------------
