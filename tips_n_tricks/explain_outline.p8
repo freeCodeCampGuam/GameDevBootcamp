@@ -82,14 +82,20 @@ function draw_interactive_ex()
   -- outline with spr just fine
   -- like this: spr(1, dx, dy)
   all_colors_to(7)
+	 rectfill(dx+w/2+30+w*4-1,dy+w/2*8+w/2-1,
+							  		dx-w/2+30+w*4+1,dy+w/2*8-w/2+1)
   sspr(ispr*8,0,8,8,dx,dy,8*w,8*w)
  end
  all_colors_to()
+ rectfill(x+w/2+30+w*4-1,y+w/2*8+w/2-1,
+ 									x-w/2+30+w*4+1,y+w/2*8-w/2+1,8)
  sspr(ispr*8,0,8,8,x,y,8*w,8*w)
  if select>0 then
   dx = x + offset_x[select]
   dy = y + offset_y[select]
   all_colors_to(14)
+  rectfill(dx+w/2+30+w*4-1,dy+w/2*8+w/2-1,
+								  	dx-w/2+30+w*4+1,dy+w/2*8-w/2+1)
   sspr(ispr*8,0,8,8,dx,dy,8*w,8*w)
   all_colors_to()
  end
