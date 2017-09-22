@@ -40,11 +40,83 @@ function _draw()
 
 	elseif demo=='sprite' then 
 
+	 ------------------------------
+	 -- 2. simple sprite outline --
+	 ------------------------------
+
+  sp = 1
+  spx = 59
+  spy = 60
+	 -- with sprites, we can't 
+	 -- just change the color.
+	 -- ...or can we?
+
+	 -- google pico8 pal
+	 -- that's a function
+	 -- we can use to swap
+	 -- our color palette!
+
+  -- ok, let's choose a color
+  -- for our outline.
+  -- we'll start off with white
+
+  -- c is 7 to start with
+	 -- and will change when
+	 -- you press z
+	 sprc = c -- 7
+
+	 -- now we're going to go
+	 -- through every color
+	 -- and use pal to turn it
+	 -- to white
+
+	 -- we'll talk in detail
+	 -- about for loops this
+	 -- saturday
+	 for color=0,15 do
+	 	pal(color, c)
+	 end
+
+	 -- now if we draw our sprite
+	 -- on the left it'll be white!
+	 spr(sp, 30, spy)
+
+	 -- now if we do the same thing
+	 -- as the text, and just
+	 -- move in each direction
+	 -- once before drawing
+	 -- we'll have an outline!
+	 spr(sp, spx-1, spy)
+	 spr(sp, spx+1, spy)
+	 spr(sp, spx, spy-1)
+	 spr(sp, spx, spy+1)
+
+	 --great, we just have a white
+	 --blob now.
+	 --we have to change the
+	 --color palette back to normal
+	 --and then draw the sprite
+	 --one more time in the center
+
+	 -- changing color back
+	 for color=0,15 do 
+	 	pal(color, color)
+	 end
+
+	 spr(sp, spx, spy)
+
+	 -- now try it out!
+	 -- run this cart and switch
+	 -- to the interactive demo!
+	 -- does it look best just
+	 -- moving the sprite in each
+	 -- direction?
+	 -- or can you find a better
+	 -- looking configuration?
+
 	 ----------------------------
 	 -- 2. simple text outline --
 	 ----------------------------
-
-	 sp = 1
 
 
 	else
@@ -158,6 +230,9 @@ function _init()
  -- text demo
 	txt_col_offset = 0
 
+	-- sprite demo
+	c = 7
+
 	-- switch demo menu item
  demo = 'text'
  menuitem(1,'> text outline', function()all_colors_to() demo='text'end)
@@ -178,6 +253,12 @@ function update_text()
  		nc = (c+txt_col_offset)%16
  		pal(c, nc)
  	end
+ end
+end
+
+function update_sprite()
+ if btnp(4) then 
+  c = (c+1)%16
  end
 end
 
