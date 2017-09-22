@@ -99,10 +99,29 @@ function draw_interactive_ex()
   sspr(ispr*8,0,8,8,dx,dy,8*w,8*w)
   all_colors_to()
  end
- s = 'press z to select the next copy'
- print(s, 64 - #s*2, 101, 7)
- s = 'arrow keys to move the copy'
- print(s, 64 - #s*2, 109, 7)
+
+ cx = 7
+ if select==0 then
+	 cs = 14
+	 co = 7
+	else 
+	 cs = 7
+	 co = 14
+	end
+	if moved and cycled then 
+  cs = 15
+  co = 15
+  cx = 15
+	end
+ print('z: next copy', 1, 95, cs)
+ print('x: add copy', 1,102,cx)
+ print('arrows: move copy', 1, 109, co)
+ 
+ s = 'selected'
+ print(s, 128-#s*4,95,7)
+ s = select..'/'..#offset_x
+ print(s, 128-#s*4,102,7)
+ if(select > 0)print(select, 128-#s*4,102,14)
 end
 
 -------------------------
@@ -126,8 +145,10 @@ function _init()
  ispr = 1
 	w=3
 	x=64 - 8*w/2
-	y=48 - 8*w/2
+	y=50 - 8*w/2
 	
+	moved=false
+	cycled=false
 	offset_x={0,0,0,0}
 	offset_y={0,0,0,0}
 	
@@ -171,25 +192,31 @@ function update_demo()
 
  -- select next copy
  if btnp(4) then
+ 	if(select==4)cycled=true
   select=(select+1)%(#offset_x+1)
  end
  -- add another copy
  if btnp(5) then
   add(offset_x, 0)
   add(offset_y, 0)
+  select = #offset_x
  end
  -- move copy
  if select > 0 then
 	 if btnp(0) then
 	  offset_x[select] -= w
+	  moved = true
 	 elseif btnp(1) then
 	  offset_x[select] += w
+	  moved = true
 	 end
 	 
 	 if btnp(2) then
 	  offset_y[select] -= w
+	  moved = true
 	 elseif btnp(3) then
 	  offset_y[select] += w
+	  moved = true
 	 end
 	end
 end
