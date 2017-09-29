@@ -6,7 +6,8 @@
 
 ## Wavy Text and Wavy Effects
 
-Wavy movements and patterns are great for making things look fluid and organic.   
+Wavy movements and patterns are great for making things look fluid and organic.
+
 They can easily be made with the `sin` and `cos` functions. Before you freak out about needing to use math, it's ok, PICO-8 makes this easy for us!
 
 ![](lava-sin.gif)![](catch-sin.gif)
@@ -18,9 +19,9 @@ Let's take a step back now and try to understand what's actually happening here.
 
 Here's a cart to help you see how `sin` and `cos` work.  
 ![](sin_cos_ex.p8.png)  
-Grab the `.png` and put it in your PICO-8 [or **try it here**](https://www.lexaloffle.com/bbs/?tid=30001)  
+Grab the `.png` and put it in your PICO-8 [or **try it here**](https://www.lexaloffle.com/bbs/?tid=30001) before continuing this tutorial.  
 
-Sine and Cosine take an angle in degrees or radians and gives a number between -1 and 1.
+Sine and Cosine take an angle in degrees or radians and gives us a number between -1 and 1.
 PICO-8's `sin` and `cos` does the same thing but they take an angle between 0 and 1 instead. An angle of **1** refers to **one full turn**. That means **0.5** would be **half a turn** and a **quarter of a turn** would be **0.25**. That's a lot simpler than needing to use 2π and π/2 or 90 and 360!
 
 ![](https://trasevoldog.files.wordpress.com/2017/06/angles1.png)
@@ -31,7 +32,7 @@ According to [the docs](http://pico-8.wikia.com/wiki/Sin), PICO-8's is inverted.
 
 Now that we got all the explaining out of the way, let's make some cool effects!
 
-We're not going to memorize at all the numbers that come out of `sin` or `cos` like you might in math class. Instead we're just going to notice that it gives us a number between -1 and 1. That means if we add it to a value, let's say 64, we'll get a number that varies between 63 and 65.  
+We're not going to memorize at all the numbers that come out of `sin` or `cos` like you might in math class. Instead we're just going to notice that it gives us a number **between -1 **and** 1**. That means if we add it to a value, let's say **64**, we'll get a number that varies between **63** and **65**.  
 If we want a **larger variation**, we just **multiply** the -1 and 1 by something.
 
 ![](multiply_sine.gif)  
@@ -44,7 +45,7 @@ Want to **reverse the direction**? Just **reverse the angle**!
 
 ### What can you do with that?
 
-That's about it! With that you can do a ton of quick and easy effects. Here's some things you can do with it:
+That's about it for the teaching! By sprinkling some `sin` and `cos` into your game, you can add a ton of quick and easy effects. Here's some things you can do with it:
 
 #### Wavy Logos
 
