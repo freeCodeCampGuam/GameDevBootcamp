@@ -4,18 +4,12 @@
 3. Wavy Text and Effects
 
 
-## Wavy Text and Effects
+## Wavy Text and Wavy Effects
 
-Wavy movements and patterns can easily be made with the `sin` and `cos` functions.  
-Before you freak out about needing to use math, it's ok, PICO-8 makes this easy for us!
+Wavy movements and patterns are great for making things look fluid and organic.   
+They can easily be made with the `sin` and `cos` functions. Before you freak out about needing to use math, it's ok, PICO-8 makes this easy for us!
 
-### Simple uses
-
-Before we try to understand how `sin` and `cos` works, let's take a look at some examples of some simple effects we can do.
-
-[Cart Here]
-
-From that cart, we can see we can do waves, loops, circles, bouncing, etc.
+![](lava-sin.gif)![](catch-sin.gif)
 
 ### Understanding `sin` and `cos`
 
@@ -37,7 +31,59 @@ According to [the docs](http://pico-8.wikia.com/wiki/Sin), PICO-8's is inverted.
 
 Now that we got all the explaining out of the way, let's make some cool effects!
 
-We're not going to memorize at all the numbers that come out of `sin` or `cos` like you might in math class. Instead we're just going to notice that 
+We're not going to memorize at all the numbers that come out of `sin` or `cos` like you might in math class. Instead we're just going to notice that it gives us a number between -1 and 1. That means if we add it to a value, let's say 64, we'll get a number that varies between 63 and 65.  
+If we want a **larger variation**, we just **multiply** the -1 and 1 by something.
+
+![](multiply_sine.gif)  
+\* *notice, `T` in the above gif increases by 0.015 every frame instead of 1. I'll let you figure out why.*
+
+Want it to go **slower**? Just **divide** `T` by something so that the angle increases by smaller increments.  
+Want to **reverse the direction**? Just **reverse the angle**!  
+
+![](div_sin.gif)
+
+### What can you do with that?
+
+That's about it! With that you can do a ton of quick and easy effects. Besides wavy logos, here's some other things you can do with it:
+
+### Wavy Logos
+
+![](hello.gif)  
+The `HELLO.P8` and `STOMPY.P8` carts in your `DEMOS` directory are a great place to see how to do this!
+
+#### Enemy Movement Patterns
+
+![](enemy-sin.gif)
+```lua
+-- for example
+for e in all(enemies) do
+ e.x = e.originx + sin(e.time) * 6
+end
+```
+
+#### Fancy Weapon Effects
+
+![](weapon_sin.gif)
+![](fancy_weapon_effects.p8.png)
+
+#### Giving Items Some Character
+
+![](item_sin.gif)
+![](item_effects.p8.png)
+
+### Advanced Uses
+`sin` and `cos` also opens the doors for rotation based player controls as well as **3D**!
+
+![](combo-pool.png)  
+[Combo-Pool](https://www.lexaloffle.com/bbs/?tid=3467) is a good example of rotation-based control  
+
+![](rotation-control.gif)
+![](rotation-control.p8.png)
+
+![](advanced-3d.gif)
+![](simple-3d-example.p8.png) 
+
+
 
 ### Resources
 
@@ -47,3 +93,12 @@ We're not going to memorize at all the numbers that come out of `sin` or `cos` l
     <summary>PG13 Warning: Swearing</summary>
     [Why turn-based angles?](https://trasevol.dog/2017/06/08/doodle-insights-17-a-case-for-turn-based-angles/)
 </details>
+
+
+## Bonus Stuff!
+
+### Simple Gravity Demo
+
+![](gravity.p8.png)
+
+### Centering Text
