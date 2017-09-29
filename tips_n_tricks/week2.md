@@ -110,4 +110,7 @@ Here's a scene in partial 3d
 
 ### Centering Text
 
+![](centered_text.gif)
+![](centered_text.p8.png)
+
 \* Note, many of these examples carts that you can download run in your PICO-8. They may be a bit convoluted or lacking in comments though. Feel free to [create an issue](https://github.com/FreeCodeCampGuam/GameDevBootcamp/issues/new) if you're having troubles understanding some code in the examples or edit the files yourself and [make a PR](https://github.com/FreeCodeCampGuam/GameDevBootcamp/pulls) to help us improve it!
