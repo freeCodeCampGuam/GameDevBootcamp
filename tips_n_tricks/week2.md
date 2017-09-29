@@ -50,7 +50,7 @@ Want to **reverse the direction**? Just **reverse the angle**!
 
 That's about it for the teaching! By sprinkling some `sin` and `cos` into your game, you can add a ton of quick and easy effects. Here's some things you can do with it:
 
-#### Wavy Logos
+#### Wavy Titles
 
 ![](hello.gif)  
 The `HELLO.P8` cart in your `DEMOS` directory is a good example of this.
