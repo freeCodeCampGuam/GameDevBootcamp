@@ -12,6 +12,9 @@ They can easily be made with the `sin` and `cos` functions. Before you freak out
 
 ![](lava-sin.gif)![](catch-sin.gif)
 
+This tutorial isn't going to teach you how to do all the effects that `sin` and `cos` allow us to do or even the common ones; because there are just way too many!  
+Instead, this tutorial will aim to help you get a better grasp of how `sin` and `cos` works and hopefully demonstrate some of the many places it can be used.
+
 ### Understanding `sin` and `cos`
 
 Let's take a step back now and try to understand what's actually happening here.  
@@ -79,10 +82,12 @@ end
 [Combo-Pool](https://www.lexaloffle.com/bbs/?tid=3467) is a good example of rotation-based control  
 
 ![](rotation-control.gif)
-![](rotation-control.p8.png)
+![](rotation-control.p8.png)  
+Here's a more stripped down example of rotation-based movement
 
 ![](advanced-3d.gif)
-![](simple-3d-example.p8.png) 
+![](simple-3d-example.p8.png)   
+Here's a scene in partial 3d
 
 
 
