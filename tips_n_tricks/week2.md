@@ -44,12 +44,12 @@ Want to **reverse the direction**? Just **reverse the angle**!
 
 ### What can you do with that?
 
-That's about it! With that you can do a ton of quick and easy effects. Besides wavy logos, here's some other things you can do with it:
+That's about it! With that you can do a ton of quick and easy effects. Here's some things you can do with it:
 
-### Wavy Logos
+#### Wavy Logos
 
 ![](hello.gif)  
-The `HELLO.P8` and `STOMPY.P8` carts in your `DEMOS` directory are a great place to see how to do this!
+The `HELLO.P8` cart in your `DEMOS` directory is a good example of this.
 
 #### Enemy Movement Patterns
 
