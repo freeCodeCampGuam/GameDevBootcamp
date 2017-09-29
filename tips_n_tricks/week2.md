@@ -18,7 +18,7 @@ Let's take a step back now and try to understand what's actually happening here.
 
 Here's a cart to help you see how `sin` and `cos` work.  
 ![](sin_cos_ex.p8.png)  
-Grab the png and put it in your PICO-8 [or **try it here**](https://www.lexaloffle.com/bbs/?tid=30001)  
+Grab the `.png` and put it in your PICO-8 [or **try it here**](https://www.lexaloffle.com/bbs/?tid=30001)  
 
 Sine and Cosine take an angle in degrees or radians and gives a number between -1 and 1.
 PICO-8's `sin` and `cos` does the same thing but they take an angle between 0 and 1 instead. An angle of **1** refers to **one full turn**. That means **0.5** would be **half a turn** and a **quarter of a turn** would be **0.25**. That's a lot simpler than needing to use 2π and π/2 or 90 and 360!
