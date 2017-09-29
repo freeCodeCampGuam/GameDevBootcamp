@@ -61,7 +61,8 @@ The `HELLO.P8` cart in your `DEMOS` directory is a good example of this.
 ```lua
 -- for example
 for e in all(enemies) do
- e.x = e.originx + sin(e.time) * 6
+ e.t += .015
+ e.x = e.originx + sin(e.t) * 6
 end
 ```
 
