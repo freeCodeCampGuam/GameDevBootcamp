@@ -8,6 +8,8 @@ Every week we tried to let the attendees vote on a topic they'd like to learn du
 ### Week 2: [Wavy Effects](tips_n_tricks/week2/week2.md)
 
 ## Bootcamp Example Carts
+We covered some extra miscellaneous topics as they came up. Here are some carts that illustrate those topics:  
+
 - #### Screen Transition
 ![Screen Transition](week3/screen-transition.p8.png)
 - #### Acceleration / Gravity
