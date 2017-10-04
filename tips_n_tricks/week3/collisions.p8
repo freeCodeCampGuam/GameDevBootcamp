@@ -84,7 +84,70 @@ function hit_dw()
 end
 
 function draw_dw()
+	cls()
 
+	phw = p.w/2
+	bhw = box.w/2
+
+	-- boxes
+ c = colliding and 2 or 5
+
+	rect(box.x,box.y,
+						box.x+box.w,box.y+box.w,
+						5)
+
+	rect(p.x,p.y,
+						p.x+p.w,p.y+p.w,
+						c)
+
+
+	-- distance line
+	xc = inx and 8 or 6
+	dotline(bx,by, px,by, 2,xc)
+
+	pset(bx,by, 11)
+	pset(px,py, 12)
+
+	-- player half-width
+	line(px,      box.y+box.w+4,
+						p.x+p.w, box.y+box.w+4,1)
+	pset(px,      box.y+box.w+3,1)
+	pset(p.x+p.w, box.y+box.w+3,1)
+
+	printc(phw, px+phw/2 + .5, 
+								box.y+box.w+6,1)
+
+	-- box half-width
+	line(bx,      box.y+box.w+4,
+						box.x,   box.y+box.w+4,3)
+	pset(bx,      box.y+box.w+3,3)
+	pset(box.x,   box.y+box.w+3,3)
+
+	printc(bhw, bx-bhw/2 + .5, 
+								box.y+box.w+6,3)
+
+
+	-- dynamic info (distance)
+	printf({'abs(',px,'-',bx,'): ',
+									abs(px-bx),' < ',
+									phw,'+',bhw},
+								64,2.5,
+								{6,12,6,11,6,
+									6,xc,
+									1,6,3},true)
+
+	s = {'abs(','x1','-','x2',') < ',
+					 'w1/2',' + ','w2/2',': ',colliding}
+	printf(s,3,105,
+							{6,12,6,11,6,
+								1,6,3,6,xc})
+
+	printf({'centered,',' not top-left'},
+								13,119, {2,6})
+	line(29-7, 112,
+						29-7, 116,2)
+	line(29+5, 112,
+						29+5, 116,2)
 end
 
  ------------------------------
@@ -528,3 +591,4 @@ __music__
 00 41424344
 00 41424344
 00 41424344
+
