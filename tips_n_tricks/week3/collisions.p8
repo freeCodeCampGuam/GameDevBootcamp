@@ -121,19 +121,19 @@ function init_title()
 end
 
 function update_title()
-	
+	t+=1
 end
 
 function draw_title()
 	cls()
 	printf({'press ','enter ','to select'}, 
-								64, 58, {6,7,6}, true)
+								64, 58, {6,t%80<40 and 7 or 5,6}, true)
 	printc('a collision demo',64, 64, 6)
 
 	s = 'use the arrow keys to move'
 	printf({'use the ','arrow keys ','to move'},
-								64, 102, {13,12,13}, true)
-	printc('the player', 64, 108, 13)
+								64, 102, {13,t%80>40 and 12 or 1,13}, true)
+	printc('the "player" box', 64, 108, 13)
 end
 
 --- helpers ---
