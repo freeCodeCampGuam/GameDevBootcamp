@@ -123,6 +123,22 @@ end
 
 --- helpers ---
 
+-- for print fancy :P
+-- prints strings concatenated
+-- but in the colors specified
+-- Example Usage:
+--  printf({'hello ','world'},
+--		 						64,64,
+--		 						{8,11})
+
+function printf(words,x,y,cs)
+ local cursor = 0
+	for i, w in pairs(words) do 
+		print(w, x + cursor*4, y, cs[i])
+		cursor += #(w..'')
+	end
+end
+
 -- draws a dotted line
 -- w is width of dots
 
