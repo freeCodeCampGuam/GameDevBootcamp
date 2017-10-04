@@ -3,14 +3,8 @@ version 8
 __lua__
 function _init()
  t=0
- methods = {'distance-width', 
-              'box-box', 
-              'duck-hunt',
-              'map-sprite'}
- method = 1
  p1 = {x=64,y=64}
-
- change_method(0)
+ change_state(0)
 end
 
 function _update()
@@ -22,35 +16,29 @@ function _update()
  if(btn(2))p1.y -= 2
  if(btn(3))p1.y += 2
 
- -- next/previous screen
- if(btnp(5))change_method(1)
- if(btnp(4))change_method(-1)
-
  -- check collision
- if(method==1)hit_dw()
- if(method==2)hit_box()
- if(method==3)hit_duck()
- if(method==4)hit_map()
+ if(state==0)update_title()
+ if(state==1)hit_dw()
+ if(state==2)hit_box()
+ if(state==3)hit_duck()
+ if(state==4)hit_map()
 end
 
 function _draw()
- if(method==1)draw_dw()
- if(method==2)draw_box()
- if(method==3)draw_duck()
- if(method==4)draw_map()
+ if(state==0)draw_title()
+ if(state==1)draw_dw()
+ if(state==2)draw_box()
+ if(state==3)draw_duck()
+ if(state==4)draw_map()
 end
 
-function change_method(direction)
- method = ((method-1)+direction)
-           %#methods + 1
-
- inits = {
-  init_dw,
-  init_box,
-  init_duck,
-  init_map
- }
- inits[method]()
+function change_state(to)
+ state = to
+ if(state==0)init_title()
+ if(state==1)init_dw()
+ if(state==2)init_box()
+ if(state==3)init_duck()
+ if(state==4)init_map()
 end
 
 
@@ -120,6 +108,33 @@ function draw_map()
 
 end
 
+ ------------------------------
+ ----------- title ------------
+ ------------------------------
+
+function init_title()
+	-- moved out of view
+	menuitem(1,'> distance-width', function()change_state(1)end)
+	menuitem(2,'> box-box',        function()change_state(2)end)
+	menuitem(3,'> duck-hunt',      function()change_state(3)end)
+	menuitem(4,'> map-sprite',     function()change_state(4)end)
+end
+
+function update_title()
+	
+end
+
+function draw_title()
+	cls()
+	printf({'press ','enter ','to select'}, 
+								64, 58, {6,7,6}, true)
+	printc('a collision demo',64, 64, 6)
+
+	s = 'use the arrow keys to move'
+	printf({'use the ','arrow keys ','to move'},
+								64, 102, {13,12,13}, true)
+	printc('the player', 64, 108, 13)
+end
 
 --- helpers ---
 
