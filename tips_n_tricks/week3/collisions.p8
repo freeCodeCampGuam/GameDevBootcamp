@@ -2,14 +2,15 @@ pico-8 cartridge // http://www.pico-8.com
 version 8
 __lua__
 function _init()
+ t=0
  methods = {'distance-width', 
               'box-box', 
               'duck-hunt',
               'map-sprite'}
  method = 1
+ p1 = {x=64,y=64}
+
  change_method(0)
-
-
 end
 
 function _update()
@@ -91,7 +92,7 @@ end
  --------- duck-hunt ----------
  ------------------------------
 
-function init_duck)
+function init_duck()
 
 end
 
