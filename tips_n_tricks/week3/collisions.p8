@@ -3,7 +3,7 @@ version 8
 __lua__
 function _init()
  t=0
- p1 = {x=64,y=64}
+ p = {x=64,y=64}
  change_state(0)
 end
 
@@ -11,10 +11,10 @@ function _update()
  t += 1
 
  -- move player
- if(btn(0))p1.x -= 2
- if(btn(1))p1.x += 2
- if(btn(2))p1.y -= 2
- if(btn(3))p1.y += 2
+ if(btn(0))p.x -= 2
+ if(btn(1))p.x += 2
+ if(btn(2))p.y -= 2
+ if(btn(3))p.y += 2
 
  -- check collision
  if(state==0)update_title()
@@ -49,29 +49,29 @@ end
  ------------------------------
 
 function init_dw()
- p1.x=12
- p1.y=50-15
- p1.w=30
- box={x=67,y=50-30,w=60}
+ box={x=44,y=50-25,w=50}
+ p.x=8
+ p.y=50-15
+ p.w=30
  colliding = false
 end
 
 function hit_dw()
 	-- for demonstration
 	-- restrict movement to x
-	p1.y=50-15
+	p.y=50-15
 
 	-- box center
 	bx = box.x + box.w/2
 	by = box.y + box.w/2
 	-- player center
-	px = p1.x + p1.w/2
-	py = p1.y + p1.w/2
+	px = p.x + p.w/2
+	py = p.y + p.w/2
 
  -- abs(bx-py) is the distance 
  -- between the 2 centers
- inx=abs(bx-px) < box.w/2+p1.w/2
-	iny=abs(by-py) < box.w/2+p1.w/2
+ inx=abs(bx-px) < box.w/2+p.w/2
+	iny=abs(by-py) < box.w/2+p.w/2
 
 	--if distance between the
 	--centers is < half their widths
