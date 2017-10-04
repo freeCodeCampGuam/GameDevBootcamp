@@ -123,6 +123,9 @@ end
 
 --- helpers ---
 
+-- draws a dotted line
+-- w is width of dots
+
 function dotline(x1,y1,x2,y2,w,c)
  w = w or 1
  w -= 1
@@ -143,6 +146,8 @@ function dotline(x1,y1,x2,y2,w,c)
 		end
 	end
 end
+
+-- approximate distance
 
 function distance(x1,y1,x2,y2)
 	local dx = abs(x2-x1)
