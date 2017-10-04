@@ -165,10 +165,18 @@ end
 
 --- helpers ---
 
--- for print fancy :P
+-- can't concat those other things..
+function str(i)
+ local t=type(i)
+ if(t=="boolean")return i and"true"or"false"
+ if(t=="table"or t=="function"or t=="nil")return t
+ return i..''
+end
+
+-- for print fancy :p
 -- prints strings concatenated
 -- but in the colors specified
--- Example Usage:
+-- example usage:
 --  printf({'hello ','world'},
 --		 						64,64,
 --		 						{8,11})
@@ -177,19 +185,19 @@ function printf(words,x,y,cs,center)
  local cursor = 0
  if center then
  	for i, w in pairs(words) do 
- 		x -= #w*2
+ 		x -= #str(w)*2
  	end
  	y -= 2.5
  end
 	for i, w in pairs(words) do 
 		print(w, x + cursor*4, y, cs[i])
-		cursor += #(w..'')
+		cursor += #str(w)
 	end
 end
 
 function printc(s,x,y,c)
-	if(c)return print(s,x-#s*2,y,c)
-	print(s,x-#s*2,y,c)
+	if(c)return print(s,x-2*#str(s),y,c)
+	print(s,x-2*#str(s),y,c)
 end
 
 -- draws a dotted line
