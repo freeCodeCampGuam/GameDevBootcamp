@@ -131,12 +131,23 @@ end
 --		 						64,64,
 --		 						{8,11})
 
-function printf(words,x,y,cs)
+function printf(words,x,y,cs,center)
  local cursor = 0
+ if center then
+ 	for i, w in pairs(words) do 
+ 		x -= #w*2
+ 	end
+ 	y -= 2.5
+ end
 	for i, w in pairs(words) do 
 		print(w, x + cursor*4, y, cs[i])
 		cursor += #(w..'')
 	end
+end
+
+function printc(s,x,y,c)
+	if(c)return print(s,x-#s*2,y,c)
+	print(s,x-#s*2,y,c)
 end
 
 -- draws a dotted line
