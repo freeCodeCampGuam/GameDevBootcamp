@@ -114,8 +114,8 @@ function draw_dw()
 	pset(px,      box.y+box.w+3,1)
 	pset(p.x+p.w, box.y+box.w+3,1)
 
-	printc(phw, px+phw/2 + .5, 
-								box.y+box.w+6,1)
+	--[[printc(phw, px+phw/2 + .5, 
+								box.y+box.w+6,1)--]]
 
 	-- box half-width
 	line(bx,      box.y+box.w+4,
@@ -123,18 +123,18 @@ function draw_dw()
 	pset(bx,      box.y+box.w+3,3)
 	pset(box.x,   box.y+box.w+3,3)
 
-	printc(bhw, bx-bhw/2 + .5, 
-								box.y+box.w+6,3)
+	--[[printc(bhw, bx-bhw/2 + .5, 
+								box.y+box.w+6,3)--]]
 
 
 	-- dynamic info (distance)
-	printf({'abs(',px,'-',bx,'): ',
+--[[	printf({'abs(',px,'-',bx,'): ',
 									abs(px-bx),' < ',
 									phw,'+',bhw},
 								64,2.5,
 								{6,12,6,11,6,
 									6,xc,
-									1,6,3},true)
+									1,6,3},true)--]]
 
 	s = {'abs(','x1','-','x2',') < ',
 					 'w1/2',' + ','w2/2',': ',colliding}
@@ -142,8 +142,8 @@ function draw_dw()
 							{6,12,6,11,6,
 								1,6,3,6,xc})
 
-	printf({'centered,',' not top-left'},
-								13,119, {2,6})
+	printf({'box center,',' not top-left'},
+								10,119, {2,6})
 	line(29-7, 112,
 						29-7, 116,2)
 	line(29+5, 112,
