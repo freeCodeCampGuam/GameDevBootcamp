@@ -49,11 +49,38 @@ end
  ------------------------------
 
 function init_dw()
-
+ p1.x=12
+ p1.y=50-15
+ p1.w=30
+ box={x=67,y=50-30,w=60}
+ colliding = false
 end
 
 function hit_dw()
+	-- for demonstration
+	-- restrict movement to x
+	p1.y=50-15
 
+	-- box center
+	bx = box.x + box.w/2
+	by = box.y + box.w/2
+	-- player center
+	px = p1.x + p1.w/2
+	py = p1.y + p1.w/2
+
+ -- abs(bx-py) is the distance 
+ -- between the 2 centers
+ inx=abs(bx-px) < box.w/2+p1.w/2
+	iny=abs(by-py) < box.w/2+p1.w/2
+
+	--if distance between the
+	--centers is < half their widths
+	--they are colliding
+ if inx and iny then 
+  colliding = true
+ else 
+  colliding = false
+ end
 end
 
 function draw_dw()
