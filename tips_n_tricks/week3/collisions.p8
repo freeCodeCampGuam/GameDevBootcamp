@@ -121,6 +121,34 @@ function draw_map()
 end
 
 
+--- helpers ---
+
+function dotline(x1,y1,x2,y2,w,c)
+ w = w or 1
+ w -= 1
+	local d = distance(x1,y1,x2,y2)
+	local dx, dy = x2-x1, y2-y1
+	local sx, sy = dx/d, dy/d
+	if c then 
+		for i=0,d,(w+1)*2 do
+			line(x1 + sx*i, y1 + sy*i,
+								x1 + sx*(i+w), y1 + sy*(i+w),
+								c)
+		end
+	else 
+		for i=0,d,2 do
+			line(x1 + sx*i, y1 + sy*i,
+								x1 + sx*(i+w), y1 + sy*(i+w))
+		end
+	end
+end
+
+function distance(x1,y1,x2,y2)
+	local dx = abs(x2-x1)
+	local dy = abs(y2-y1)
+	return dx+dy-0.585786*min(dx,dy)
+end
+
 __gfx__
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
