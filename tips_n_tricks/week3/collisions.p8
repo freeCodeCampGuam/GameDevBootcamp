@@ -128,7 +128,8 @@ function dotline(x1,y1,x2,y2,w,c)
  w -= 1
 	local d = distance(x1,y1,x2,y2)
 	local dx, dy = x2-x1, y2-y1
-	local sx, sy = dx/d, dy/d
+	local sx = d==0 and 0 or dx/d
+	local sy = d==0 and 0 or dy/d
 	if c then 
 		for i=0,d,(w+1)*2 do
 			line(x1 + sx*i, y1 + sy*i,
