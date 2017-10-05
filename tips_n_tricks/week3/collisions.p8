@@ -90,7 +90,7 @@ function draw_dw()
 	bhw = box.w/2
 
 	-- boxes
- c = colliding and 2 or 5
+ c = colliding and 14 or 5
 
 	rect(box.x,box.y,
 						box.x+box.w,box.y+box.w,
@@ -99,20 +99,34 @@ function draw_dw()
 	rect(p.x,p.y,
 						p.x+p.w,p.y+p.w,
 						c)
+	if colliding then 
+		rectfill(box.x,box.y,
+							box.x+box.w,box.y+box.w,
+							15)
+
+		rectfill(p.x,p.y,
+							p.x+p.w,p.y+p.w,
+							c)
+	end
 
 
 	-- distance line
 	xc = inx and 8 or 6
+	dotline(bx+1,by+1, px+1,by+1, 2,0)
 	dotline(bx,by, px,by, 2,xc)
 
-	pset(bx,by, 11)
-	pset(px,py, 12)
+ -- centers
+	circfill(bx+1,by+1, 1,0)
+	circfill(px+1,py+1, 1,0)
+
+	circfill(bx,by, 1,11)
+	circfill(px,py, 1,10)
 
 	-- player half-width
 	line(px,      box.y+box.w+4,
-						p.x+p.w, box.y+box.w+4,1)
-	pset(px,      box.y+box.w+3,1)
-	pset(p.x+p.w, box.y+box.w+3,1)
+						p.x+p.w, box.y+box.w+4,4)
+	pset(px,      box.y+box.w+3,4)
+	pset(p.x+p.w, box.y+box.w+3,4)
 
 	--[[printc(phw, px+phw/2 + .5, 
 								box.y+box.w+6,1)--]]
@@ -132,18 +146,18 @@ function draw_dw()
 									abs(px-bx),' < ',
 									phw,'+',bhw},
 								64,2.5,
-								{6,12,6,11,6,
+								{6,10,6,11,6,
 									6,xc,
 									1,6,3},true)--]]
 
 	s = {'abs(','x1','-','x2',') < ',
 					 'w1/2',' + ','w2/2',': ',colliding}
 	printf(s,3,105,
-							{6,12,6,11,6,
-								1,6,3,6,xc})
+							{6,10,6,11,6,
+								4,6,3,6,xc})
 
 	printf({'box centers,',' not top-left'},
-								7,119, {2,6})
+								7,119, {2,2})
 	line(29-7, 112,
 						29-7, 116,2)
 	line(29+5, 112,
