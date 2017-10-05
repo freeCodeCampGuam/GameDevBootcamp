@@ -95,3 +95,19 @@ It's a little bit better now, but our character is ***still*** going inside the 
 ![](map_corners.gif)
 
 There we go! Now if any of those corners is on a solid map cell, we know that our character is colliding with it!
+
+Putting that all together in code might look something like this:
+
+```lua
+mx = p.x/8
+my = p.y/8
+if fget(mget(mx,  my),   0) or   -- top left
+   fget(mget(mx+8,my),   0) or   -- top right
+   fget(mget(mx,  my+8), 0) or   -- bottom left
+   fget(mget(mx+8,my+8), 0) then -- bottom right
+ -- react to the collision
+else
+ -- do other stuff when we don't collide
+end
+```
+
