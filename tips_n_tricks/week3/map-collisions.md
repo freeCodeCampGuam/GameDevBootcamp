@@ -96,6 +96,8 @@ It's a little bit better now, but our character is ***still*** going inside the 
 
 There we go! Now if any of those corners is on a solid map cell, we know that our character is colliding with it!
 
+### Summary
+
 Putting that all together in code might look something like this:
 
 ```lua
@@ -110,4 +112,40 @@ else
  -- do other stuff when we don't collide
 end
 ```
+
+A common way to handle collision reactions is to just not go there or turn around instead!  
+Something like this:
+```lua
+mx = p.x/8
+my = p.y/8
+next_mx = (p.x+p.dx)/8
+next_my = (p.y+p.dy)/8
+-- try move on the x axis
+if fget(mget(next_mx,  my),   0) or   -- top left
+   fget(mget(next_mx+8,my),   0) or   -- top right
+   fget(mget(next_mx,  my+8), 0) or   -- bottom left
+   fget(mget(next_mx+8,my+8), 0) then -- bottom right
+ p.dx = -p.dx * .4  -- face the other way and dampen the bounce
+else
+ p.x += p.dx  -- it's safe to move
+end
+
+-- try move on the y axis
+if fget(mget(mx,  next_my),   0) or   -- top left
+   fget(mget(mx+8,next_my),   0) or   -- top right
+   fget(mget(mx,  next_my+8), 0) or   -- bottom left
+   fget(mget(mx+8,next_my+8), 0) then -- bottom right
+ p.dy = -p.dy * .4  -- face the other way and dampen the bounce
+else
+ p.y += p.dy -- it's safe to move
+end
+```
+
+There we go, we got a solid map that our character can walk around in!
+
+![](map_fin.gif)
+
+### That's It!
+
+\* This will be updated soon with a review cart as well as a simplified working map collision cart. 
 
