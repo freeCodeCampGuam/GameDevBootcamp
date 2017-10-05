@@ -92,4 +92,6 @@ Ok, easy enough, we'll just use the middle instead (`p.x + p.w/2` and `p.y + p.h
 
 It's a little bit better now, but our character is ***still*** going inside the solid sprites a little bit before we detect the collision. What we should do instead is check every corner to see if there's a collision!
 
+![](map_corners.gif)
 
+There we go! Now if any of those corners is on a solid map cell, we know that our character is colliding with it!
