@@ -7,9 +7,10 @@ So quick review on collisions, we've covered:
 1. distance < half widths  
 ![](distance_width.gif). 
 2. standard box-box collision (AABB)
-3. The pixel perfect [Duck Hunt](https://www.youtube.com/watch?v=-1NyIsZXeqU)-style detection
+(gif coming soon)
+3. The pixel perfect [Duck Hunt](https://www.youtube.com/watch?v=-1NyIsZXeqU)-style detection (gif coming soon)
 
-\* here's [a cart](#) that the above gifs came from
+\* here's [a cart (coming soon)](#) that the above gifs came from
 
 ## Map Collisions
 
