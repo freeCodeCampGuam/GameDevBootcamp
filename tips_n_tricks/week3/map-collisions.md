@@ -89,6 +89,6 @@ Ok, easy enough, we'll just use the middle instead (`p.x + p.w/2` and `p.y + p.h
 
 ![](map_c.gif)
 
-It's a little bit better now but our character is ***still*** going inside the solid sprites a little bit before we detect the collision. What we should do instead is check every corner to see if there's a collision!
+It's a little bit better now, but our character is ***still*** going inside the solid sprites a little bit before we detect the collision. What we should do instead is check every corner to see if there's a collision!
 
 
