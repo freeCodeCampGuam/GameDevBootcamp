@@ -142,8 +142,8 @@ function draw_dw()
 							{6,12,6,11,6,
 								1,6,3,6,xc})
 
-	printf({'box center,',' not top-left'},
-								10,119, {2,6})
+	printf({'box centers,',' not top-left'},
+								7,119, {2,6})
 	line(29-7, 112,
 						29-7, 116,2)
 	line(29+5, 112,
