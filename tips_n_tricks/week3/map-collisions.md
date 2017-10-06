@@ -81,7 +81,7 @@ But we have a slight problem..
 ![](map_tl.gif)  
 \* *watch the yellow circle*
 
-Our we're using the top left point of our character's sprite!
+We're using the top left point of our character's sprite!
 Ok, easy enough, we'll just use the middle instead (`p.x + p.w/2` and `p.y + p.h/2`).. But wait..
 
 ![](map_c.gif)
