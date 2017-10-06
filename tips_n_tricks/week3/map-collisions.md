@@ -35,7 +35,6 @@ Because each cell coordinate refers to 1 sprite and each sprite is 8x8 pixels, t
 ### [`fget(n, f)`](http://pico-8.wikia.com/wiki/Fget)
 
 Now that we know what sprite is at a particular x and y coordinate, we can check if that sprite has a flag set.   
-
 **Sprite flags** are those little circles below the color and size pickers in the Sprite Editor.
 
 ![](fget.png)
