@@ -40,7 +40,7 @@ Now that we know what sprite is at a particular x and y coordinate, we can check
 ![](fget.png)
 
 The sprite selected in the above picture has **flag 0** turned on.
-If we look at the documentation, we see that `fget(n, f)` takes a sprite number first and then the flag number second. 
+If we look at [the documentation](http://pico-8.wikia.com/wiki/Fget), we see that `fget(n, f)` takes a sprite number first and then the flag number second, returning `true` or `false` depending on if the flag is set. 
 That means to get the flag for the sprite in the above picture, we'd do `fget(1, 0)`, looking at sprite number 1 to see if flag 0 is set.
 
 Flags can be used any way you'd like but in the case of our map collisions, we can say "if a sprite has flag 0 turned on, the player can't go through it. It's a solid object."
