@@ -27,9 +27,9 @@ Notice though, we need to give it x and y **cell coordinates**. That refers to t
 
 ![](mget.png)
 
-Because each cell coordinate refers to 1 sprite and each sprite is 8x8 pixels, the sprite that the mouse is pointed at in the above picture would be at the **pixel coordinates** of (8, 112) or (**1 x 8**, **14 x 8**).
-
 `mget` returns the sprite number given the cell x and y coordinates, so `mget(1, 14)` would give us `1` in the picture above, because the sprite at coordinate (1,14) is 1.
+
+Because each cell coordinate refers to 1 sprite and each sprite is 8x8 pixels, the sprite that the mouse is pointed at in the above picture would be at the **pixel coordinates** of (8, 112) or (**1 x 8**, **14 x 8**).
 
 
 ### [`fget(n, f)`](http://pico-8.wikia.com/wiki/Fget)
