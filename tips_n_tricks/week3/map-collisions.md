@@ -154,5 +154,6 @@ There we go, we got a solid map that our character can walk around in!
 
 ## That's It!
 
-\* This will be updated soon with a review cart as well as a simplified working map collision cart. 
+Here's an example cart using this kind of collision. It's got breakable blocks too!  
+![](map-collision.p8.png)
 
