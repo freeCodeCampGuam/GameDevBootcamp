@@ -45,7 +45,7 @@ That means to get the flag for the sprite in the above picture, we'd do `fget(1,
 
 Flags can be used any way you'd like but in the case of our map collisions, we can say "if a sprite has flag 0 turned on, the player can't go through it. It's a solid object."
 
-That way I can put other sprites on the map and if flag 0 is off, they'll just be part of the background and the player can just walk through it.
+That way we can use sprites with flag 0 for solid terrain and sprites without flag 0 as non-colliding parts of the background.
 
 ![](fget2.png)
 
