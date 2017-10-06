@@ -103,10 +103,13 @@ Putting that all together in code might look something like this:
 ```lua
 mx = p.x/8
 my = p.y/8
-if fget(mget(mx,  my),   0) or   -- top left
-   fget(mget(mx+8,my),   0) or   -- top right
-   fget(mget(mx,  my+8), 0) or   -- bottom left
-   fget(mget(mx+8,my+8), 0) then -- bottom right
+mw = p.w/8 -- character's width in map cells
+mh = p.h/8 -- and height
+
+if fget(mget(mx,   my),    0) or   -- top left
+   fget(mget(mx+mw,my),    0) or   -- top right
+   fget(mget(mx,   my+mh), 0) or   -- bottom left
+   fget(mget(mx+mw,my+mh), 0) then -- bottom right
  -- react to the collision
 else
  -- do other stuff when we don't collide
@@ -118,23 +121,27 @@ Something like this:
 ```lua
 mx = p.x/8
 my = p.y/8
+mw = p.w/8 -- character's width in map cells
+mh = p.h/8 -- and height
+
 next_mx = (p.x+p.dx)/8
 next_my = (p.y+p.dy)/8
+
 -- try move on the x axis
-if fget(mget(next_mx,  my),   0) or   -- top left
-   fget(mget(next_mx+8,my),   0) or   -- top right
-   fget(mget(next_mx,  my+8), 0) or   -- bottom left
-   fget(mget(next_mx+8,my+8), 0) then -- bottom right
+if fget(mget(next_mx,   my),    0) or   -- top left
+   fget(mget(next_mx+mw,my),    0) or   -- top right
+   fget(mget(next_mx,   my+mh), 0) or   -- bottom left
+   fget(mget(next_mx+mw,my+mh), 0) then -- bottom right
  p.dx = -p.dx * .4  -- face the other way and dampen the bounce
 else
  p.x += p.dx  -- it's safe to move
 end
 
 -- try move on the y axis
-if fget(mget(mx,  next_my),   0) or   -- top left
-   fget(mget(mx+8,next_my),   0) or   -- top right
-   fget(mget(mx,  next_my+8), 0) or   -- bottom left
-   fget(mget(mx+8,next_my+8), 0) then -- bottom right
+if fget(mget(mx,   next_my),    0) or   -- top left
+   fget(mget(mx+mw,next_my),    0) or   -- top right
+   fget(mget(mx,   next_my+mh), 0) or   -- bottom left
+   fget(mget(mx+mw,next_my+mh), 0) then -- bottom right
  p.dy = -p.dy * .4  -- face the other way and dampen the bounce
 else
  p.y += p.dy -- it's safe to move
