@@ -15,7 +15,7 @@ So quick review on collisions, we've covered:
 ## Map Collisions
 
 Now how about colliding with what we have drawn on the map?  
-We could so for each moving object go through each map sprite and and do box-box collision on the two, but that'd be a lot of checks!  
+We could check each moving object against each map sprite and do box-box collision on the two, but that'd be a lot of checks!  
 
 PICO-8 has some convenient functions that let us do collisions with the map a little more easily.  
 These functions are:
