@@ -20,10 +20,7 @@ We could check each moving object against each map sprite and do box-box collisi
 PICO-8 has some convenient functions that let us do collisions with the map a little more easily.  
 These functions are:
 
-* [`mget`](http://pico-8.wikia.com/wiki/Mget): gets the sprite number at the map coordinate given
-* [`fget`](http://pico-8.wikia.com/wiki/Fget): gets the flag(s) set on a sprite number
-
-### [mget(cellx, celly)](http://pico-8.wikia.com/wiki/Mget)
+### [`mget(cellx, celly)`](http://pico-8.wikia.com/wiki/Mget)
 
 `mget` gives us the sprite number given x and y coordinates.
 Notice though, we need to give it x and y **cell coordinates**. That refers to the x and y coordinates on the bottom left of the map editor when you hover over a sprite on the map.
@@ -35,7 +32,7 @@ Because each cell coordinate refers to 1 sprite and each sprite is 8x8 pixels, t
 `mget` returns the sprite number given the cell x and y coordinates, so `mget(1, 14)` would give us `1` in the picture above, because the sprite at coordinate (1,14) is 1.
 
 
-### [fget(n, f)](http://pico-8.wikia.com/wiki/Fget)
+### [`fget(n, f)`](http://pico-8.wikia.com/wiki/Fget)
 
 Now that we know what sprite is at a particular x and y coordinate, we can check if that sprite has a flag set.   
 
