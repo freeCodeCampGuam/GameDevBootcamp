@@ -99,8 +99,10 @@ Putting that all together in code might look something like this:
 ```lua
 mx = p.x/8
 my = p.y/8
-mw = p.w/8 -- character's width in map cells
-mh = p.h/8 -- and height
+-- character's width and height in map cells
+-- excluding the pixel we're on now
+mw = (p.w-1)/8 
+mh = (p.h-1)/8 
 
 if fget(mget(mx,   my),    0) or   -- top left
    fget(mget(mx+mw,my),    0) or   -- top right
@@ -117,8 +119,10 @@ Something like this:
 ```lua
 mx = p.x/8
 my = p.y/8
-mw = p.w/8 -- character's width in map cells
-mh = p.h/8 -- and height
+-- character's width and height in map cells
+-- excluding the pixel we're on now
+mw = (p.w-1)/8 
+mh = (p.h-1)/8 
 
 next_mx = (p.x+p.dx)/8
 next_my = (p.y+p.dy)/8
