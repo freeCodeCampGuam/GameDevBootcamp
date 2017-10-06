@@ -51,21 +51,21 @@ That way I can put other sprites on the map and if flag 0 is off, they'll just b
 
 *Sprite 5's flag 0 is off. That means the player can walk through it.*
 
-### Putting it all together
+## Putting it all together
 
-#### 1. `mget`
+### 1. `mget`
 Using `mget`, we can get the sprite number of each sprite on the map. I've drawn the output of `mget` on the actual sprites here so we can see them easier.
 
 ![](map_mget.png)
 
-#### 2. `fget`
+### 2. `fget`
 
 Now if we use `fget` with those sprite numbers, we'll be able to tell if that place on the map is "solid" or not. I've colored the sprite numbers <span style="color:red;">red</span> if their flag 0 is on.
 
 ![](map_fget.png)   
 \* Notice, the grasses' sprite numbers aren't red
 
-#### 3. Player Location
+### 3. Player Location
 
 Alright, that's great and all but we don't need every sprite and every flag on the map, we just need to know the sprite and flag that the character is on so that we can tell if she's colliding or not.
 
@@ -148,7 +148,7 @@ There we go, we got a solid map that our character can walk around in!
 
 ![](map_fin.gif)
 
-### That's It!
+## That's It!
 
 \* This will be updated soon with a review cart as well as a simplified working map collision cart. 
 
