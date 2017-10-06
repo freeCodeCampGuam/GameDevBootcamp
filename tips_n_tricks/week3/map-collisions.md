@@ -71,10 +71,10 @@ Alright, that's great and all but we don't need every sprite and every flag on t
 
 How do we do that though? Our character's x and y coordinates represent pixels, but `mget` takes x and y map cell coordinates!
 
-The Player's x and y coordinates on the screen can be anywhere on the screen, that's 128x128, but the map's x and y cell coordinates count the sprites, not the pixels. If we cut the screen into chunks of 8 pixels each, each one of those 8x8 chunks is a sprite and is one cell coordinate. In order to *divide* something into chunks... we **divide** it! So 128px / 8px per sprite == **16 sprites**. Our screen can only hold 16x16 sprites. 
+We'll need to scale our pixel coordinates of the 128x128 screen to map cell coordinates. Map cells are 8 times bigger than a pixel since each cell is an 8x8 sprite. That means that if we *divide* the screen into sprites of 8x8, we get 128/8 == **16** sprites total that can fit on the screen. If the screen was 8x8 pixels wide instead, we'd be able to fit 8/8 == **1** sprite in that screen.
 
 We can use that same calculation to figure out which map cell our character is on.
-Let's say our character is at (18, 64), if we divide those by 8, we get (18/8, 64/8) == (**2.25**, **8**). `mget` knows that when we say 2.25, we mean 2, so we don't need to worry about giving it decimals. How convenient! That means (18, 64) is at cell (2, 8). Now we just plug that into `mget` and `fget` and we can now tell if a character is on a solid sprite!
+Let's say our character is at (10, 64), if we divide those by 8, we get (10/8, 64/8) == (**1.25**, **8**). `mget` knows that when we say 1.25, we mean 1, so we don't need to worry about giving it decimals. How convenient! That means (10, 64) is at cell (1, 8). Now we just plug that into `mget` and `fget` and we can now tell if a character is on a solid sprite!
 
 But we have a slight problem..
 
