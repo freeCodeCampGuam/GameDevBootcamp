@@ -200,7 +200,7 @@ end
 
 function init_enemy()
  local e = {
-  sp=2,
+  sp=1,
   x=rnd(100)+10,
   y=rnd(20)+90,
   dx=0, dy=0,
